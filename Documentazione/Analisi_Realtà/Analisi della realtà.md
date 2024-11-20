@@ -97,12 +97,11 @@ Rappresenta i film o le serie TV disponibili sulla piattaforma
 | `Tipo`                   | varchar  | ✅        | Film o Serie TV                              |
 | `Data_Rilascio`          | date     | ✅        | data di pubblicazione                        |
 | `Genere`                 | string   | ✅        | genere del contenuto                         |
-| `Locandina`              | nvarchar | ❌        | locandina rappresentativa                    |
-| `Descrizione`            | varchar  | ❌        | descrizione del contenuto                    |
-| `Rating`                 | float    | ❌        | valutazione media degli utenti presa da IMDB |
-| `Primo_ep`               | datetime | ❌        | data del primo episodio (serie)              |
-| `Ultimo_ep`              | datetime | ❌        | data dell'ultimo episodio (serie)            |
-| `Durata`                 | int      | ❌        | durata in minuti                             |
+| `Locandina`              | nvarchar | ✅        | locandina rappresentativa                    |
+| `Descrizione`            | varchar  | ✅        | descrizione del contenuto                    |
+| `Rating`                 | float    | ✅        | valutazione media degli utenti presa da IMDB |
+| `N_Episodi`              | int      | ✅        | numero di episodi totali                     |
+| `Durata`                 | int      | ✅        | durata in minuti                             |
 
 Il rating è preso da [IMDB](https://www.imdb.com/it/)
 
