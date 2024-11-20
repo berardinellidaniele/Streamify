@@ -102,6 +102,7 @@ Rappresenta i film o le serie TV disponibili sulla piattaforma
 | `Rating`                 | float    | ✅        | valutazione media degli utenti presa da IMDB |
 | `N_Episodi`              | int      | ✅        | numero di episodi totali                     |
 | `Durata`                 | int      | ✅        | durata in minuti                             |
+| `Paese_Origine`          | varchar  | ✅        | paese d'origine                              |
 
 Il rating è preso da [IMDB](https://www.imdb.com/it/)
 
