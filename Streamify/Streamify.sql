@@ -36,12 +36,11 @@ CREATE TABLE Contenuto (
     Tipo NVARCHAR(50) NOT NULL,
     Data_Rilascio DATE NOT NULL,
     Genere NVARCHAR(50) NOT NULL,
-    Locandina NVARCHAR(MAX),
-    Descrizione NVARCHAR(MAX),
-    Rating FLOAT,
-    Primo_ep INT,
-    Ultimo_ep INT,
-    Durata INT,
+    Locandina NVARCHAR(MAX) NOT NULL,
+    Descrizione NVARCHAR(MAX) NOT NULL,
+    Rating FLOAT NOT NULL,
+    N_Episodi INT NOT NULL,
+    Durata INT NOT NULL,
     FOREIGN KEY (ID_Amministratore) REFERENCES Amministratore(ID_Amministratore)
 );
 
