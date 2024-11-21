@@ -1,15 +1,21 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Streamify.Data;
+using Microsoft.Extensions.DependencyInjection;
 using Streamify.Models;
-
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<AppDbContext>(opzioni => opzioni.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+builder.Services.AddScoped<IDbConnection>(sp =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("Default");
+    return new SqlConnection(connectionString);
+});
+
+builder.Services.AddSingleton<Database>();
 
 builder.Services.AddIdentity<Utente, IdentityRole>(opzioni =>
 {
@@ -22,24 +28,19 @@ builder.Services.AddIdentity<Utente, IdentityRole>(opzioni =>
     opzioni.SignIn.RequireConfirmedEmail = false;
     opzioni.SignIn.RequireConfirmedPhoneNumber = false;
 })
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+.AddDefaultTokenProviders();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapControllerRoute(
