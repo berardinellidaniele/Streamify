@@ -20,3 +20,63 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.container {
+    width: 100%;
+    padding: 0;
+}
+
+.row-wrapper {
+    display: flex;
+    overflow-x: auto;
+    padding: 20px 0;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.poster {
+    width: 150px;
+    height: 225px;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+}
+
+    .poster:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    text-align: center;
+}
+
+    footer a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+@media (max-width: 768px) {
+    .poster {
+        width: 120px;
+        height: 180px;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+}

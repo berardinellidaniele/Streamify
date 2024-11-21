@@ -1,21 +1,14 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Streamify.Models;
-using Microsoft.Data.SqlClient;
+using Streamify.Data;
 using System.Data;
+using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages();
-builder.Services.AddControllersWithViews();
-
-builder.Services.AddScoped<IDbConnection>(sp =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("Default");
-    return new SqlConnection(connectionString);
-});
-
-builder.Services.AddSingleton<Database>();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddIdentity<Utente, IdentityRole>(opzioni =>
 {
@@ -28,7 +21,19 @@ builder.Services.AddIdentity<Utente, IdentityRole>(opzioni =>
     opzioni.SignIn.RequireConfirmedEmail = false;
     opzioni.SignIn.RequireConfirmedPhoneNumber = false;
 })
+.AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
+
+builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IDbConnection>(sp =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("Default");
+    return new SqlConnection(connectionString);
+});
+
+builder.Services.AddSingleton<Database>();
 
 var app = builder.Build();
 
@@ -41,6 +46,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

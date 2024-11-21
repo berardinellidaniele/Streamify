@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    var contenutiPerGenere = ViewBag.ContenutiPerGenere as Dictionary<string, List<Streamify.Models.Contenuto>>;
+}
+
+<div class="container mt-5">
+    @foreach (var genere in contenutiPerGenere.Keys)
+    {
+        <h3>@genere</h3>
+        <div class="row-wrapper" data-genere="@genere" data-offset="10" id="contenuti-@genere">
+            @foreach (var contenuto in contenutiPerGenere[genere])
+            {
+                <img class="poster" src="@contenuto.Locandina" alt="@contenuto.Nome" data-id="@contenuto.ID_Contenuto" />
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .container {
+        width: 100%;
+    }
+
+    .row-wrapper {
+        display: flex;
+        overflow-x: auto;
+        padding: 10px 0;
+    }
+
+    .poster {
+        margin: 0 5px;
+        width: 150px;
+        height: 225px;
+        object-fit: cover;
+        cursor: pointer;
+    }
+</style>
+
+<script src="/js/dashboard.js"></script>

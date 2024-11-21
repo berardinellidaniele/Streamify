@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Streamify.Models;
 using Streamify.ViewModels;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UsersApp.Controllers
 {
