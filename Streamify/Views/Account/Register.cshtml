@@ -1,0 +1,68 @@
+﻿@using Streamify.ViewModels;
+@model registerviewmodel;
+
+@{
+    ViewData["Title"] = "Registrati";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<div class="account-container">
+    <div class="account-box">
+        <h2 class="text-center mb-4">Registrati</h2>
+        <form asp-action="Register" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Nome" class="form-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Cognome" class="form-label"></label>
+                <input asp-for="Cognome" class="form-control" />
+                <span asp-validation-for="Cognome" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ConfermaPassword" class="form-label"></label>
+                <input asp-for="ConfermaPassword" class="form-control" type="password" />
+                <span asp-validation-for="ConfermaPassword" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Data_Nascita" class="form-label"></label>
+                <input asp-for="Data_Nascita" class="form-control" type="date" />
+                <span asp-validation-for="Data_Nascita" class="text-danger"></span>
+            </div>
+
+            <input type="submit" value="Register" class="btn btn-success w-100 p-2" />
+
+            <p class="text-center mt-2">
+                Hai già un account? <a asp-controller="Account" asp-action="Login" class="text-decoration-none">Login</a>
+            </p>
+
+            <div class="text-center">
+                <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Indietro</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+}
