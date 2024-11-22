@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Streamify.Models;
+using System.ComponentModel;
 
 namespace Streamify.Controllers
 {
@@ -15,7 +16,7 @@ namespace Streamify.Controllers
         public IActionResult Index()
         {
             var contenutiPerGenere = new Dictionary<string, List<Contenuto>>();
-            var generi = new List<string> { "Azione", "Commedia", "Dramma", "Fantasy", "Thriller" };
+            var generi = _database.GetGeneriUnici();
 
             foreach (var genere in generi)
             {

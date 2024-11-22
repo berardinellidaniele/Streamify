@@ -1,0 +1,74 @@
+﻿body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.genere-titolo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 15px;
+    padding-left: 10px;
+}
+
+.locandina-container {
+    width: 160px;
+    height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+}
+
+.locandina {
+    width: 140px;
+    height: 210px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.7);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    background-color: #1c1c1c;
+}
+
+    .locandina:hover {
+        transform: scale(1.15);
+        box-shadow: 0px 12px 20px rgba(229, 9, 20, 0.6);
+        border-radius: 10px;
+    }
+
+.row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 0;
+    -ms-overflow-style: none; /* Rimuove la barra di scorrimento in IE */
+    scrollbar-width: none; /* Rimuove la barra di scorrimento in Firefox */
+}
+
+    .row::-webkit-scrollbar {
+        display: none;
+    }
+
+.row-wrapper {
+    position: relative;
+    overflow: visible;
+    padding: 10px 0;
+}
+
+.container {
+    width: 100%;
+    padding: 20px 0;
+}
+
+::-webkit-scrollbar {
+    height: 8px;
+    background-color: #1c1c1c;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #e50914;
+    border-radius: 10px;
+}

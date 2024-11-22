@@ -10,6 +10,7 @@ public class Database
     {
         _conn = configuration.GetConnectionString("Default");
     }
+
     private SqlConnection CreateConnection()
     {
         return new SqlConnection(_conn);
@@ -18,23 +19,21 @@ public class Database
     public bool CreaUtente(Utente user, string hashedPassword)
     {
         const string query = @"
-            INSERT INTO Utente (Nome, Cognome, Email, Username, PasswordHash, Data_Iscrizione, Data_Nascita) 
-            VALUES (@Nome, @Cognome, @Email, @Username, @PasswordHash, @Data_Iscrizione, @Data_Nascita)";
+            INSERT INTO Utente (Nome, Cognome, Email, Password, Data_Iscrizione, Data_Nascita) 
+            VALUES (@Nome, @Cognome, @Email, @Password, @Data_Iscrizione, @Data_Nascita)";
         using var db = CreateConnection();
         var result = db.Execute(query, new
         {
             user.Nome,
             user.Cognome,
             user.Email,
-            user.Username,
-            PasswordHash = hashedPassword,
+            Password = hashedPassword,
             user.Data_Iscrizione,
             user.Data_Nascita
         });
         return result > 0;
     }
 
-    
     public Utente OttieniUtenteDaEmail(string email)
     {
         const string query = "SELECT * FROM Utente WHERE Email = @Email";
@@ -42,33 +41,25 @@ public class Database
         return db.QuerySingleOrDefault<Utente>(query, new { Email = email });
     }
 
-    
     public bool ModificaPassword(string email, string hashedPassword)
     {
-        const string query = "UPDATE Utente SET PasswordHash = @PasswordHash WHERE Email = @Email";
+        const string query = "UPDATE Utente SET Password = @PasswordHash WHERE Email = @Email";
         using var db = CreateConnection();
         var result = db.Execute(query, new { PasswordHash = hashedPassword, Email = email });
         return result > 0;
     }
 
-   
     public bool ValidazioneUtente(string email, string passwordHash)
     {
-        const string query = "SELECT 1 FROM Utente WHERE Email = @Email AND PasswordHash = @PasswordHash";
+        const string query = "SELECT 1 FROM Utente WHERE Email = @Email AND Password = @PasswordHash";
         using var db = CreateConnection();
         return db.QueryFirstOrDefault<int>(query, new { Email = email, PasswordHash = passwordHash }) == 1;
     }
 
     public List<Contenuto> GetContenutiPerGenere(string genere, int offset, int limit)
     {
-        const string query = @"
-            SELECT * 
-            FROM Contenuto 
-            WHERE Genere = @Genere 
-            ORDER BY ID_Contenuto 
-            OFFSET @Offset ROWS FETCH NEXT @Limit ROWS ONLY";
         using var db = CreateConnection();
-        return db.Query<Contenuto>(query, new { Genere = genere, Offset = offset, Limit = limit }).AsList();
+        return db.Query<Contenuto>($"SELECT * FROM Contenuto WHERE Genere LIKE '%{genere}%' ORDER BY ID_Contenuto OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY").AsList();
     }
 
     public bool AggiungiContenuto(Contenuto contenuto)
@@ -88,7 +79,6 @@ public class Database
         return db.Query<Utente>(query).AsList();
     }
 
-    
     public bool EliminaUtente(int userId)
     {
         const string query = "DELETE FROM Utente WHERE ID_Utente = @ID_Utente";
@@ -97,15 +87,27 @@ public class Database
         return result > 0;
     }
 
-    
     public bool AggiornaUtente(Utente user)
     {
         const string query = @"
             UPDATE Utente
-            SET Nome = @Nome, Cognome = @Cognome, Email = @Email, Username = @Username, Data_Nascita = @Data_Nascita
+            SET Nome = @Nome, Cognome = @Cognome, Email = @Email, Data_Nascita = @Data_Nascita
             WHERE ID_Utente = @ID_Utente";
         using var db = CreateConnection();
         var result = db.Execute(query, user);
         return result > 0;
+    }
+
+    public List<string> GetGeneriUnici()
+    {
+        const string query = "SELECT Genere FROM Contenuto";
+        using var db = CreateConnection();
+        var generi = db.Query<string>(query).ToList();
+        return generi
+            .Where(g => !string.IsNullOrEmpty(g))
+            .SelectMany(g => g.Split(',').Select(genere => genere.Trim()))
+            .Distinct()
+            .OrderBy(g => g)
+            .ToList();
     }
 }

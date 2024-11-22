@@ -56,7 +56,6 @@ namespace Streamify.Controllers
                     Nome = modelloRegistrazione.Nome,
                     Cognome = modelloRegistrazione.Cognome,
                     Email = modelloRegistrazione.Email,
-                    Username = modelloRegistrazione.Email,
                     Data_Iscrizione = DateTime.UtcNow,
                     Data_Nascita = modelloRegistrazione.Data_Nascita
                 };
