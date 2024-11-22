@@ -1,19 +1,18 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Streamify.Models;
 using Streamify.ViewModels;
+using System.Security.Cryptography;
+using System.Text;
 
-namespace UsersApp.Controllers
+namespace Streamify.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SignInManager<Utente> signInManager;
-        private readonly UserManager<Utente> userManager;
+        private readonly Database _database;
 
-        public AccountController(SignInManager<Utente> signinmanager, UserManager<Utente> usermanager)
+        public AccountController(Database database)
         {
-            this.signInManager = signinmanager;
-            this.userManager = usermanager;
+            _database = database;
         }
 
         public IActionResult Login()
@@ -22,23 +21,22 @@ namespace UsersApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(loginviewmodel model)
+        public IActionResult Login(loginviewmodel modelloLogin)
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-
-                if (result.Succeeded)
+                var passwordHashata = HashPassword(modelloLogin.Password);
+                if (_database.ValidazioneUtente(modelloLogin.Email, passwordHashata))
                 {
+                    HttpContext.Session.SetString("EmailUtente", modelloLogin.Email);
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "password o email non corretti");
-                    return View(model);
+                    ModelState.AddModelError("", "Email o password non corretti");
                 }
             }
-            return View(model);
+            return View(modelloLogin);
         }
 
         public IActionResult Register()
@@ -47,114 +45,69 @@ namespace UsersApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(registerviewmodel model)
+        public IActionResult Register(registerviewmodel modelloRegistrazione)
         {
             if (ModelState.IsValid)
             {
-                Utente users = new Utente
+                var passwordHashata = HashPassword(modelloRegistrazione.Password);
+
+                var utente = new Utente
                 {
-                    Nome = model.Nome,
-                    Cognome = model.Cognome,
-                    Data_Nascita = model.Data_Nascita,
-                    Email = model.Email,
-                    UserName = model.Email,
+                    Nome = modelloRegistrazione.Nome,
+                    Cognome = modelloRegistrazione.Cognome,
+                    Email = modelloRegistrazione.Email,
+                    Username = modelloRegistrazione.Email,
+                    Data_Iscrizione = DateTime.UtcNow,
+                    Data_Nascita = modelloRegistrazione.Data_Nascita
                 };
 
-                var result = await userManager.CreateAsync(users, model.Password);
-
-                if (result.Succeeded)
+                if (_database.CreaUtente(utente, passwordHashata))
                 {
                     return RedirectToAction("Login", "Account");
                 }
                 else
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-
-                    return View(model);
+                    ModelState.AddModelError("", "Errore nella creazione dell'account");
                 }
             }
-            return View(model);
+            return View(modelloRegistrazione);
         }
 
-        public IActionResult VerifyEmail()
+        public IActionResult ChangePassword(string email)
         {
-            return View();
+            return View(new CambiaPasswordViewModel { Email = email });
         }
 
         [HttpPost]
-        public async Task<IActionResult> VerifyEmail(VerificaEmailViewModel model)
+        public IActionResult ChangePassword(CambiaPasswordViewModel modelloCambiaPassword)
         {
             if (ModelState.IsValid)
             {
-                var user = await userManager.FindByNameAsync(model.Email);
-
-                if (user == null)
+                var passwordHashata = HashPassword(modelloCambiaPassword.NuovaPassword);
+                if (_database.ModificaPassword(modelloCambiaPassword.Email, passwordHashata))
                 {
-                    ModelState.AddModelError("", "qualche errore strano deicsamente lol");
-                    return View(model);
+                    return RedirectToAction("Login", "Account");
                 }
                 else
                 {
-                    return RedirectToAction("Cambia Password", "Account", new { username = user.UserName });
+                    ModelState.AddModelError("", "Errore durante l'aggiornamento della password");
                 }
             }
-            return View(model);
+            return View(modelloCambiaPassword);
         }
 
-        public IActionResult ChangePassword(string username)
+        public IActionResult Logout()
         {
-            if (string.IsNullOrEmpty(username))
-            {
-                return RedirectToAction("Verifica Email", "Account");
-            }
-            return View(new CambiaPasswordViewModel { Email = username });
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ChangePassword(CambiaPasswordViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await userManager.FindByNameAsync(model.Email);
-                if (user != null)
-                {
-                    var result = await userManager.RemovePasswordAsync(user);
-                    if (result.Succeeded)
-                    {
-                        result = await userManager.AddPasswordAsync(user, model.NuovaPassword);
-                        return RedirectToAction("Login", "Account");
-                    }
-                    else
-                    {
-
-                        foreach (var error in result.Errors)
-                        {
-                            ModelState.AddModelError("", error.Description);
-                        }
-
-                        return View(model);
-                    }
-                }
-                else
-                { 
-                    ModelState.AddModelError("", "Email non trovata");
-                    return View(model);
-                }
-            }
-            else
-            {
-                ModelState.AddModelError("", "Qualche errore strano decisamente");
-                return View(model);
-            }
-        }
-
-        public async Task<IActionResult> Logout()
-        {
-            await signInManager.SignOutAsync();
+            HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
+        }
+
+        private string HashPassword(string password)
+        {
+            using var sha256 = SHA256.Create();
+            var bytes = Encoding.UTF8.GetBytes(password);
+            var hash = sha256.ComputeHash(bytes);
+            return Convert.ToBase64String(hash);
         }
     }
 }

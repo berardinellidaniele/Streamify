@@ -17,7 +17,7 @@ namespace Streamify.ViewModels
         [Required(ErrorMessage = "Confermare la password")]
         [DataType(DataType.Password)]
         [Display(Name = "Conferma la nuova password")]
-        [Compare("ConfermaNuovaPassword", ErrorMessage = "Le password non corrispondono")]
+        [Compare("NuovaPassword", ErrorMessage = "Le password non corrispondono")] // il compare era sbagliato
         public string ConfermaNuovaPassword { get; set; }
     }
 }

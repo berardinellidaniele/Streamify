@@ -1,28 +1,8 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Streamify.Models;
-using Streamify.Data;
-using System.Data;
 using Microsoft.Data.SqlClient;
+using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
-
-builder.Services.AddIdentity<Utente, IdentityRole>(opzioni =>
-{
-    opzioni.Password.RequireNonAlphanumeric = false;
-    opzioni.Password.RequiredLength = 8;
-    opzioni.Password.RequireUppercase = false;
-    opzioni.Password.RequireLowercase = false;
-    opzioni.User.RequireUniqueEmail = true;
-    opzioni.SignIn.RequireConfirmedAccount = false;
-    opzioni.SignIn.RequireConfirmedEmail = false;
-    opzioni.SignIn.RequireConfirmedPhoneNumber = false;
-})
-.AddEntityFrameworkStores<ApplicationDbContext>()
-.AddDefaultTokenProviders();
 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
@@ -35,6 +15,13 @@ builder.Services.AddScoped<IDbConnection>(sp =>
 
 builder.Services.AddSingleton<Database>();
 
+builder.Services.AddSession(opzioni =>
+{
+    opzioni.IdleTimeout = TimeSpan.FromMinutes(30);
+    opzioni.Cookie.HttpOnly = true;
+    opzioni.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -45,8 +32,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
-app.UseAuthentication();
+app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(

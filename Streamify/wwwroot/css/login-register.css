@@ -1,0 +1,44 @@
+﻿body {
+    background-color: black;
+    color: white;
+}
+
+.account-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.account-box {
+    background-color: #222;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    max-width: 400px;
+    width: 100%;
+}
+
+    .account-box h2 {
+        color: white;
+        text-align: center;
+    }
+
+.form-control {
+    background-color: #333;
+    border: none;
+    color: white;
+}
+
+    .form-control::placeholder {
+        color: #aaa;
+    }
+
+.btn-success {
+    background-color: #e50914;
+    border: none;
+}
+
+    .btn-success:hover {
+        background-color: #f6121d;
+    }

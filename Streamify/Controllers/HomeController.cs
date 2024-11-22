@@ -1,30 +1,30 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Streamify.Models;
-using System.Diagnostics;
-using Dapper;
-using Microsoft.Data.SqlClient;
-using System.Data;
 
-namespace UsersApp.Controllers
+namespace Streamify.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly Database _database;
+
+        public HomeController(Database database)
+        {
+            _database = database;
+        }
+
         public IActionResult Index()
         {
-            return View();
-        }
+            var contenutiPerGenere = new Dictionary<string, List<Contenuto>>();
+            var generi = new List<string> { "Azione", "Commedia", "Dramma", "Fantasy", "Thriller" };
 
-        [Authorize]
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            foreach (var genere in generi)
+            {
+                var contenuti = _database.GetContenutiPerGenere(genere, 0, 10);
+                contenutiPerGenere[genere] = contenuti;
+            }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            ViewBag.ContenutiPerGenere = contenutiPerGenere;
+            return View();
         }
     }
 }

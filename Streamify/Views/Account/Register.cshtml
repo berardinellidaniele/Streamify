@@ -1,68 +1,57 @@
-﻿@using Streamify.ViewModels;
-@model registerviewmodel;
+﻿@using Streamify.ViewModels
+@model registerviewmodel
 
 @{
     ViewData["Title"] = "Registrati";
     Layout = "~/Views/Shared/_AccountLayout.cshtml";
 }
 
+<link rel="stylesheet" href="~/css/login-register.css" />
+
 <div class="account-container">
     <div class="account-box">
-        <h2 class="text-center mb-4">Registrati</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-white">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <h2>Registrati</h2>
+        </div>
         <form asp-action="Register" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
             <div class="mb-3">
-                <label asp-for="Nome" class="form-label"></label>
-                <input asp-for="Nome" class="form-control" />
+                <label asp-for="Nome" class="form-label">Nome</label>
+                <input asp-for="Nome" class="form-control" placeholder="Inserisci il tuo nome" />
                 <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
-
             <div class="mb-3">
-                <label asp-for="Cognome" class="form-label"></label>
-                <input asp-for="Cognome" class="form-control" />
+                <label asp-for="Cognome" class="form-label">Cognome</label>
+                <input asp-for="Cognome" class="form-control" placeholder="Inserisci il tuo cognome" />
                 <span asp-validation-for="Cognome" class="text-danger"></span>
             </div>
-
             <div class="mb-3">
-                <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" class="form-control" placeholder="Inserisci la tua email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-
             <div class="mb-3">
-                <label asp-for="Password" class="form-label"></label>
-                <input asp-for="Password" class="form-control" type="password" />
+                <label asp-for="Password" class="form-label">Password</label>
+                <input asp-for="Password" class="form-control" type="password" placeholder="Crea una password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-
             <div class="mb-3">
-                <label asp-for="ConfermaPassword" class="form-label"></label>
-                <input asp-for="ConfermaPassword" class="form-control" type="password" />
+                <label asp-for="ConfermaPassword" class="form-label">Conferma Password</label>
+                <input asp-for="ConfermaPassword" class="form-control" type="password" placeholder="Conferma la tua password" />
                 <span asp-validation-for="ConfermaPassword" class="text-danger"></span>
             </div>
-
             <div class="mb-3">
-                <label asp-for="Data_Nascita" class="form-label"></label>
+                <label asp-for="Data_Nascita" class="form-label">Data di Nascita</label>
                 <input asp-for="Data_Nascita" class="form-control" type="date" />
                 <span asp-validation-for="Data_Nascita" class="text-danger"></span>
             </div>
-
-            <input type="submit" value="Register" class="btn btn-success w-100 p-2" />
-
-            <p class="text-center mt-2">
+            <input type="submit" value="Registrati" class="btn btn-success w-100" />
+            <p class="text-center mt-3">
                 Hai già un account? <a asp-controller="Account" asp-action="Login" class="text-decoration-none">Login</a>
             </p>
-
-            <div class="text-center">
-                <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Indietro</a>
-            </div>
         </form>
     </div>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
-    }
-}

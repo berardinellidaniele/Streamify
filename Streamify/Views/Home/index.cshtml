@@ -1,8 +1,23 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
+    var contenutiPerGenere = ViewBag.ContenutiPerGenere as Dictionary<string, List<Streamify.Models.Contenuto>>;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<link rel="stylesheet" href="~/css/home.css" />
+
+<div class="container-fluid">
+    @foreach (var genere in contenutiPerGenere.Keys)
+    {
+        <div class="mb-4">
+            <h3 class="genere-titolo">@genere</h3>
+            <div class="row flex-nowrap overflow-auto">
+                @foreach (var contenuto in contenutiPerGenere[genere])
+                {
+                    <div class="col-auto">
+                        <img src="@contenuto.Locandina" alt="@contenuto.Nome" class="locandina" />
+                    </div>
+                }
+            </div>
+        </div>
+    }
 </div>

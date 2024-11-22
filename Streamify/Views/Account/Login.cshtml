@@ -1,50 +1,37 @@
-﻿@using Streamify.ViewModels;
-@model loginviewmodel;
+﻿@using Streamify.ViewModels
+@model loginviewmodel
 
 @{
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_AccountLayout.cshtml";
 }
 
+<link rel="stylesheet" href="~/css/login-register.css" />
+
 <div class="account-container">
     <div class="account-box">
-        <h2 class="text-center mb-4">Login</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-white">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <h2>Login</h2>
+        </div>
         <form asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
             <div class="mb-3">
-                <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" class="form-control" placeholder="Inserisci la tua email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-
             <div class="mb-3">
-                <label asp-for="Password" class="form-label"></label>
-                <input asp-for="Password" class="form-control" type="password" />
+                <label asp-for="Password" class="form-label">Password</label>
+                <input asp-for="Password" class="form-control" type="password" placeholder="Inserisci la tua password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <a asp-controller="Account" asp-action="VerifyEmail" class="text-decoration-none">
-                    Password dimenticata?
-                </a>
-            </div>
-
-            <input type="submit" value="Login" class="btn btn-success w-100 p-2" />
-
+            <input type="submit" value="Login" class="btn btn-success w-100" />
             <p class="text-center mt-3">
                 Non hai un account? <a asp-controller="Account" asp-action="Register" class="text-decoration-none">Registrati</a>
             </p>
-
-            <div class="text-center mt-3">
-                <a asp-controller="Home" asp-action="Index" class="text-decoration-none">Indietro</a>
-            </div>
         </form>
     </div>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
-    }
-}
