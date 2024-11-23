@@ -9,8 +9,20 @@
     font-weight: bold;
     color: white;
     margin-bottom: 15px;
-    padding-left: 10px;
+    padding-left: 2px;
+    display: flex;
+    align-items: center;
+    position: relative;
 }
+
+    .genere-titolo::before {
+        content: '';
+        width: 5px;
+        height: 1.5rem;
+        background-color: #e50914;
+        margin-right: 10px;
+        flex-shrink: 0;
+    }
 
 .locandina-container {
     width: 160px;
@@ -44,8 +56,8 @@
     gap: 20px;
     overflow-x: auto;
     padding: 10px 0;
-    -ms-overflow-style: none; /* Rimuove la barra di scorrimento in IE */
-    scrollbar-width: none; /* Rimuove la barra di scorrimento in Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
     .row::-webkit-scrollbar {
@@ -71,4 +83,25 @@
 ::-webkit-scrollbar-thumb {
     background-color: #e50914;
     border-radius: 10px;
+}
+
+.navbar {
+    background-color: black;
+    border-bottom: 1px solid #444;
+    padding: 5px 15px;
+}
+
+.navbar-brand img {
+    display: block;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.nav-link {
+    color: white;
+    font-size: 0.9rem;
+}
+
+.navbar-nav {
+    align-items: center;
 }

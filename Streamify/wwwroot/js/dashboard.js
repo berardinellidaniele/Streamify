@@ -14,15 +14,12 @@ $(document).ready(function () {
 
                 isLoading = true;
 
-                // Richiesta AJAX per ottenere nuovi contenuti
                 $.ajax({
                     url: '/Dashboard/GetContenuti',
                     method: 'GET',
                     data: { genere: genere, offset: offset, limit: limit },
                     success: function (data) {
-                        // Aggiunge i contenuti alla pagina
                         $this.append(data);
-                        // Aumenta l'offset per la prossima richiesta
                         $this.data('offset', offset + limit);
                         isLoading = false;
                     },
