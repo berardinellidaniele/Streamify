@@ -1,19 +1,16 @@
-﻿body 
-{
+﻿body {
     background-color: black;
     color: white;
 }
 
-.account-container 
-{
+.account-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
 }
 
-.account-box 
-{
+.account-box {
     background-color: #222;
     padding: 40px;
     border-radius: 10px;
@@ -22,55 +19,69 @@
     width: 100%;
 }
 
-.account-box h2 
-{
+    .account-box h2 {
         color: white;
         text-align: center;
-}
+    }
 
-.form-control 
-{
+.form-control {
     background-color: #333;
     border: none;
     color: white;
+    box-sizing: border-box;
+    height: 40px;
 }
 
-.form-control::placeholder 
-{
+    .form-control::placeholder {
         color: #aaa;
-}
+    }
 
-.btn-success 
-{
+.btn-success {
     background-color: #e50914;
     border: none;
 }
 
-.btn-success:hover 
-{
+    .btn-success:hover {
         background-color: #f6121d;
-}
+    }
 
 .password-wrapper {
     position: relative;
 }
 
-    .password-wrapper .form-control {
-        padding-right: 40px; 
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+    .input-group .form-control {
+        border-right: none;
+        height: 40px;
     }
 
-    .password-wrapper .toggle-password {
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
-        cursor: pointer;
+    .input-group .input-group-text {
+        background-color: #333;
+        border: none;
         color: #aaa;
-        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        width: 40px;
     }
 
-        .password-wrapper .toggle-password.active {
+        .input-group .input-group-text:hover {
             color: #e50914;
         }
 
+.toggle-password {
+    font-size: 1.2rem;
+    cursor: pointer;
 }
+
+    .toggle-password:hover {
+        color: #e50914;
+    }

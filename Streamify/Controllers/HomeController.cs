@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Streamify.Models;
-using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace Streamify.Controllers
 {
@@ -26,6 +26,13 @@ namespace Streamify.Controllers
 
             ViewBag.ContenutiPerGenere = contenutiPerGenere;
             return View();
+        }
+
+        public IActionResult LoadMoreContent(string genere, int offset, int limit)
+        {
+            var contenuti = _database.GetContenutiPerGenere(genere, offset, limit);
+
+            return PartialView("_ContenutiPartial", contenuti);
         }
     }
 }

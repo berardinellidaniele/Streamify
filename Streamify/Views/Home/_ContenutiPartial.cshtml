@@ -1,0 +1,8 @@
+﻿@model List<Streamify.Models.Contenuto>
+
+@foreach (var contenuto in Model)
+{
+    <div class="locandina-container">
+        <img class="locandina" src="@contenuto.Locandina" alt="@contenuto.Nome" data-id="@contenuto.ID_Contenuto" onerror="this.onerror=null; this.src='/images/locandina.png';" />
+    </div>
+}
