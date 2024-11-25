@@ -28,11 +28,41 @@ namespace Streamify.Controllers
             return View();
         }
 
-        public IActionResult LoadMoreContent(string genere, int offset, int limit)
+        [HttpGet]
+        public IActionResult CaricaPiuContenuti(string genere, int offset, int limit)
         {
             var contenuti = _database.GetContenutiPerGenere(genere, offset, limit);
-
             return PartialView("_ContenutiPartial", contenuti);
+        }
+
+        [HttpGet]
+        public IActionResult Dettagli(int id)
+        {
+            var contenuto = _database.GetContenuto(id);
+            if (contenuto == null)
+            {
+                return NotFound();
+            }
+
+            return View(contenuto);
+        }
+
+        [HttpGet]
+        public JsonResult GetContenutoDettagli(int id)
+        {
+            var contenuto = _database.GetContenuto(id);
+            if (contenuto == null)
+            {
+                return Json(new { success = false, message = "Contenuto non trovato" });
+            }
+
+            return Json(new
+            {
+                success = true,
+                nome = contenuto.Nome,
+                descrizione = contenuto.Descrizione,
+                trailerKeyword = contenuto.Nome
+            });
         }
     }
 }

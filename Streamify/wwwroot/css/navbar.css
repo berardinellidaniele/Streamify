@@ -1,0 +1,79 @@
+﻿body {
+    background-color: black;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: black;
+    border-bottom: 1px solid #444;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+}
+
+    .navbar .navbar-brand img {
+        height: 40px;
+        width: auto;
+    }
+
+    .navbar .nav-link {
+        color: white;
+        font-weight: 500;
+        margin-right: 15px;
+    }
+
+        .navbar .nav-link:hover {
+            color: #bbb;
+        }
+
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+    .search-bar .search-input {
+        background-color: transparent;
+        border: 1px solid white;
+        color: white;
+        border-radius: 20px;
+        padding: 5px 10px;
+        width: 0;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .search-bar .search-button {
+        background-color: transparent;
+        border: none;
+        color: white;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+        .search-bar .search-button:hover {
+            color: #bbb;
+        }
+
+    .search-bar .search-input:focus {
+        outline: none;
+    }
+
+    .search-bar:hover .search-input {
+        width: 200px;
+        opacity: 1;
+    }
+
+.profile-icon {
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    object-fit: cover;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+    .profile-icon:hover {
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+    }
