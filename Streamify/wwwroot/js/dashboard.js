@@ -49,23 +49,31 @@ $(document).ready(function () {
 
     // Gestione apertura popup con dettagli
     $(document).on('click', '.locandina', function () {
-        const contentId = $(this).data('id');  // Ottieni l'ID del contenuto cliccato
+        const contentId = $(this).data('id');
         const popup = $('#dettagli-contenuto');
 
         $.ajax({
             url: '/Home/GetContenutoDettagli',
             method: 'GET',
-            data: { id: contentId },  // Passa l'ID del contenuto al server
+            data: { id: contentId },
             success: function (data) {
                 if (data.success) {
-                    // Popola il popup con i dati ricevuti
                     $('#dettagli-titolo').text(data.nome);
                     $('#dettagli-descrizione').text(data.descrizione);
+                    $('#dettagli-genere').text(data.genere);
+                    $('#dettagli-rating').text(data.rating);
+                    $('#dettagli-durata').text(data.durata);
+                    $('#dettagli-episodi').text(data.episodi);
+                    $('#dettagli-locandina').attr('src', data.locandina).show();
 
-                    // Recupera il trailer usando la funzione esistente
-                    const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(data.trailerKeyword)}`;
-                    fetchTrailerUrl(youtubeSearchUrl, function (url) {
-                        $('#dettagli-trailer').attr('src', url);
+                    const trailerKeyword = encodeURIComponent(data.nome);
+
+                    fetchTrailerUrl(trailerKeyword, function (url) {
+                        if (url) {
+                            $('#dettagli-trailer').attr('src', url + "?autoplay=1").show();
+                        } else {
+                            $('#dettagli-trailer').hide();
+                        }
                     });
 
                     popup.show();
@@ -81,16 +89,22 @@ $(document).ready(function () {
 
     $('#close-popup').click(function () {
         $('#dettagli-contenuto').hide();
-        $('#dettagli-trailer').attr('src', '');
+        $('#dettagli-trailer').attr('src', '').hide();
     });
 
-    function fetchTrailerUrl(searchUrl, callback) {
-        $.get(searchUrl, function (data) {
-            const match = data.match(/watch\?v=([a-zA-Z0-9_-]{11})/);
-            if (match && match[1]) {
-                const videoUrl = `https://www.youtube.com/embed/${match[1]}`;
-                callback(videoUrl);
-            } else {
+    function fetchTrailerUrl(query, callback) {
+        $.ajax({
+            url: '/Home/GetTrailerUrl',
+            method: 'GET',
+            data: { trailerKeyword: query },
+            success: function (data) {
+                if (data.success) {
+                    callback(data.trailerUrl);
+                } else {
+                    callback('');
+                }
+            },
+            error: function () {
                 callback('');
             }
         });

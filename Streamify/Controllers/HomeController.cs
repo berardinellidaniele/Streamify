@@ -1,12 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Streamify.Models;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Streamify.Controllers
 {
     public class HomeController : Controller
     {
         private readonly Database _database;
+        private readonly string _youtubeApiKey = "AIzaSyAvdS11fj6_aHedKM7mU9XqqjYtpTmZ_ek";
 
         public HomeController(Database database)
         {
@@ -64,5 +68,42 @@ namespace Streamify.Controllers
                 trailerKeyword = contenuto.Nome
             });
         }
+
+        [HttpGet]
+        public async Task<JsonResult> GetTrailerUrl(string trailerKeyword)
+        {
+            var query = Uri.EscapeDataString(trailerKeyword + " trailer");
+
+            var url = $"https://www.googleapis.com/youtube/v3/search?part=snippet&q={query}&type=video&autoplay=1&vq=hd1080&key={_youtubeApiKey}";
+
+            using var client = new HttpClient();
+            var response = await client.GetStringAsync(url);
+
+            var jsonResponse = JsonConvert.DeserializeObject<YouTubeSearchResponse>(response);
+
+            if (jsonResponse.Items != null && jsonResponse.Items.Count > 0)
+            {
+                var videoId = jsonResponse.Items[0].Id.VideoId;
+                var videoUrl = $"https://www.youtube.com/embed/{videoId}";
+                return Json(new { success = true, trailerUrl = videoUrl });
+            }
+
+            return Json(new { success = false, trailerUrl = string.Empty });
+        }
+    }
+
+    public class YouTubeSearchResponse
+    {
+        public List<YouTubeSearchItem> Items { get; set; }
+    }
+
+    public class YouTubeSearchItem
+    {
+        public YouTubeSearchId Id { get; set; }
+    }
+
+    public class YouTubeSearchId
+    {
+        public string VideoId { get; set; }
     }
 }
