@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Home";
+    var contenutiPerGenere = ViewBag.ContenutiPerGenere as Dictionary<string, List<Streamify.Models.Contenuto>>;
+}
+
+<link rel="stylesheet" href="~/css/home.css" />
+
+<div class="container-fluid">
+    @foreach (var genere in contenutiPerGenere.Keys)
+    {
+        <div class="mb-4">
+            <h3 class="genere-titolo">@genere</h3>
+            <div class="scroller-container">
+                <button class="scroller-left" data-target="@genere">&#8249;</button>
+                <div class="row-wrapper" data-genere="@genere" data-offset="0">
+                    @foreach (var contenuto in contenutiPerGenere[genere])
+                    {
+                        <div class="locandina-container">
+                            <img class="locandina" src="@contenuto.Locandina"
+                                 alt="@contenuto.Nome"
+                                 data-id="@contenuto.ID_Contenuto"
+                                 data-nome="@contenuto.Nome"
+                                 data-descrizione="@contenuto.Descrizione"
+                                 data-trailer-keyword="@contenuto.Nome trailer"
+                                 onerror="this.onerror=null; this.src='/images/locandina_film_default.jpg';" />
+                        </div>
+                    }
+                </div>
+                <button class="scroller-right" data-target="@genere">&#8250;</button>
+            </div>
+        </div>
+    }
+</div>
+
+<div id="dettagli-contenuto" class="dettagli-popup" style="display: none;">
+    <div class="dettagli-content">
+        <button id="close-popup" class="close-popup">&times;</button>
+        <h2 id="dettagli-titolo"></h2>
+        <iframe id="dettagli-trailer" src="" frameborder="0" allow='autoplay' allowfullscreen></iframe>
+        <p id="dettagli-descrizione"></p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/Film.js"></script>

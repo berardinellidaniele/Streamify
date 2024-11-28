@@ -62,6 +62,12 @@ public class Database
         return db.Query<Contenuto>($"SELECT * FROM Contenuto WHERE Genere LIKE '%{genere}%' ORDER BY ID_Contenuto OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY").AsList();
     }
 
+    public List<Contenuto> GetContenutiPerGenere(string genere, string tipo, int offset, int limit)
+    {
+        using var db = CreateConnection();
+        return db.Query<Contenuto>($"SELECT * FROM Contenuto WHERE Genere LIKE '%{genere}%' AND Tipo='{tipo}' ORDER BY ID_Contenuto OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY").AsList();
+    }
+
     public bool AggiungiContenuto(Contenuto contenuto)
     {
         const string query = @"

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Streamify.Models;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,11 +11,12 @@ namespace Streamify.Controllers
     public class HomeController : Controller
     {
         private readonly Database _database;
-        private readonly string _youtubeApiKey = "AIzaSyAvdS11fj6_aHedKM7mU9XqqjYtpTmZ_ek";
+        private readonly string _youtubeApiKey;
 
-        public HomeController(Database database)
+        public HomeController(Database database, IConfiguration configuration)
         {
             _database = database;
+            _youtubeApiKey = configuration["Youtube_API:API_KEY"];
         }
 
         public IActionResult Index()
@@ -32,10 +34,54 @@ namespace Streamify.Controllers
             return View();
         }
 
+        public IActionResult Film()
+        {
+            var contenutiPerGenere = new Dictionary<string, List<Contenuto>>();
+            var generi = _database.GetGeneriUnici();
+
+            foreach (var genere in generi)
+            {
+                var contenuti = _database.GetContenutiPerGenere(genere, "movie", 0, 30);
+                contenutiPerGenere[genere] = contenuti;
+            }
+
+            ViewBag.ContenutiPerGenere = contenutiPerGenere;
+            return View();
+        }
+
+        public IActionResult SerieTV()
+        {
+            var contenutiPerGenere = new Dictionary<string, List<Contenuto>>();
+            var generi = _database.GetGeneriUnici();
+
+            foreach (var genere in generi)
+            {
+                var contenuti = _database.GetContenutiPerGenere(genere, "tvSeries", 0, 30);
+                contenutiPerGenere[genere] = contenuti;
+            }
+
+            ViewBag.ContenutiPerGenere = contenutiPerGenere;
+            return View();
+        }
+
         [HttpGet]
         public IActionResult CaricaPiuContenuti(string genere, int offset, int limit)
         {
             var contenuti = _database.GetContenutiPerGenere(genere, offset, limit);
+            return PartialView("_ContenutiPartial", contenuti);
+        }
+
+        [HttpGet]
+        public IActionResult CaricaPiuContenutiFilm(string genere, int offset, int limit)
+        {
+            var contenuti = _database.GetContenutiPerGenere(genere, "movie", offset, limit);
+            return PartialView("_ContenutiPartial", contenuti);
+        }
+
+        [HttpGet]
+        public IActionResult CaricaPiuContenutiSerieTV(string genere, int offset, int limit)
+        {
+            var contenuti = _database.GetContenutiPerGenere(genere, "tvSeries", offset, limit);
             return PartialView("_ContenutiPartial", contenuti);
         }
 
@@ -72,7 +118,7 @@ namespace Streamify.Controllers
         [HttpGet]
         public async Task<JsonResult> GetTrailerUrl(string trailerKeyword)
         {
-            var query = Uri.EscapeDataString(trailerKeyword + " trailer");
+            var query = Uri.EscapeDataString(trailerKeyword + " official" + " trailer");
 
             var url = $"https://www.googleapis.com/youtube/v3/search?part=snippet&q={query}&type=video&autoplay=1&vq=hd1080&key={_youtubeApiKey}";
 

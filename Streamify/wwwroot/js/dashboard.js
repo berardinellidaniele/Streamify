@@ -1,5 +1,7 @@
+// Desc: Script per la dashboard dell'utente
+
+// Funzione per la gestione dello scroll orizzontale delle righe di contenuti
 $(document).ready(function () {
-    // Gestione scorrimento righe
     $('.scroller-left, .scroller-right').click(function () {
         const isLeft = $(this).hasClass('scroller-left');
         const targetGenere = $(this).data('target');
@@ -10,13 +12,13 @@ $(document).ready(function () {
             ? $rowWrapper.scrollLeft() - scrollAmount
             : $rowWrapper.scrollLeft() + scrollAmount;
 
-        $rowWrapper.animate({ scrollLeft: newScrollPosition }, 300);
+        $rowWrapper.animate({ scrollLeft: newScrollPosition }, 100);
     });
 
-    // Gestione caricamento dinamico contenuti
     let isLoading = false;
     let offsets = {};
 
+    // Gestione caricamento dinamico dei contenuti
     $('.row-wrapper').on('scroll', function () {
         if (isLoading) return;
 
@@ -31,21 +33,47 @@ $(document).ready(function () {
             const limit = 10;
             isLoading = true;
 
-            $.ajax({
-                url: '/Home/CaricaPiuContenuti',
-                method: 'GET',
-                data: { genere: genere, offset: offsets[genere], limit: limit },
-                success: function (data) {
-                    $this.append(data);
-                    offsets[genere] += limit;
-                    isLoading = false;
-                },
-                error: function () {
-                    isLoading = false;
-                }
+            caricaContenutiDallaCache(genere, offsets[genere], limit).then(function (contenuti) {
+                $this.append(contenuti);
+                offsets[genere] += limit;
+                isLoading = false;
+            }).catch(function () {
+                isLoading = false;
             });
         }
     });
+
+    // Funzione per caricare i contenuti nella cache o dalla cache
+    function caricaContenutiDallaCache(genere, offset, limit) {
+        const cacheKey = `contenuti_${genere}_${offset}_${limit}`;
+        const cachedData = localStorage.getItem(cacheKey);
+
+
+        if (cachedData) {
+            const { data, timestamp } = JSON.parse(cachedData);
+            const cacheDuration = 3600000;
+            if (Date.now() - timestamp < cacheDuration) {
+                return Promise.resolve(data);
+            } else {
+                localStorage.removeItem(cacheKey);
+            }
+        }
+
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: '/Home/CaricaPiuContenuti',
+                method: 'GET',
+                data: { genere: genere, offset: offset, limit: limit },
+                success: function (data) {
+                    localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: Date.now() }));
+                    resolve(data);
+                },
+                error: function () {
+                    reject([]);
+                }
+            });
+        });
+    }
 
     // Gestione apertura popup con dettagli
     $(document).on('click', '.locandina', function () {
@@ -92,6 +120,7 @@ $(document).ready(function () {
         $('#dettagli-trailer').attr('src', '').hide();
     });
 
+    // Funzione per recuperare l'URL del trailer di un contenuto
     function fetchTrailerUrl(query, callback) {
         $.ajax({
             url: '/Home/GetTrailerUrl',

@@ -6,12 +6,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
+builder.Services.AddMemoryCache();
 
 builder.Services.AddScoped<IDbConnection>(sp =>
 {
     var connectionString = builder.Configuration.GetConnectionString("Default");
     return new SqlConnection(connectionString);
 });
+
 
 builder.Services.AddSingleton<Database>();
 
