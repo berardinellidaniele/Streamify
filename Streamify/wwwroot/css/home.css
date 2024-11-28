@@ -149,3 +149,27 @@ iframe {
     border-radius: 10px;
     margin-top: 15px;
 }
+
+#results-title {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: left
+}
+
+#search-results {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px;
+}
+
+#search-results-container {
+    display: none;
+    flex-direction: column;
+    padding: 20px;
+    background-color: black;
+    color: white;
+    width: 100%;
+    border: 2px solid red;
+    min-height: 300px;
+}

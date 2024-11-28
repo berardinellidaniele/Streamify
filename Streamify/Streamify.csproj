@@ -9,6 +9,7 @@
   <ItemGroup>
     <Content Remove="wwwroot\js\dashboard.js" />
     <Content Remove="wwwroot\js\Film.js" />
+    <Content Remove="wwwroot\js\NewFile.txt" />
     <Content Remove="wwwroot\js\SerieTV.js" />
   </ItemGroup>
 

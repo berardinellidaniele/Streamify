@@ -117,21 +117,20 @@ public class Database
             .ToList();
     }
 
-    public List<Contenuto> CercaContenutoOGeneri(string search, int offset, int limit)
+    public List<Contenuto> CercaContenutoOGeneri(string search)
     {
         const string query = @"
-        SELECT DISTINCT * 
+        SELECT DISTINCT ID_Contenuto, Nome, Locandina, Descrizione
         FROM Contenuto
-        WHERE Nome LIKE @Search OR Genere LIKE @Search
-        ORDER BY ID_Contenuto
-        OFFSET @Offset ROWS FETCH NEXT @Limit ROWS ONLY";
+        WHERE LOWER(Nome) LIKE @Search
+            OR LOWER(Genere) LIKE @Search
+        ORDER BY ID_Contenuto";
+
 
         using var db = CreateConnection();
         return db.Query<Contenuto>(query, new
         {
-            Search = $"%{search}%",
-            Offset = offset,
-            Limit = limit
+            Search = $"%{search}%"
         }).ToList();
     }
 

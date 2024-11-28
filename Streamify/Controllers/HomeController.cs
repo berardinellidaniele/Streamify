@@ -136,6 +136,30 @@ namespace Streamify.Controllers
 
             return Json(new { success = false, trailerUrl = string.Empty });
         }
+
+        [HttpGet]
+        public JsonResult Search(string search)
+        {
+            if (string.IsNullOrWhiteSpace(search))
+            {
+                return Json(new List<object>());
+            }
+
+            var risultati = _database.CercaContenutoOGeneri(search);
+           
+            var response = risultati.Select(r => new
+            {
+                id = r.ID_Contenuto,
+                nome = r.Nome,
+                descrizione = r.Descrizione, 
+                locandina = string.IsNullOrEmpty(r.Locandina) || !Uri.IsWellFormedUriString(r.Locandina, UriKind.Absolute)
+                ? Url.Content("~/images/locandina_film_default.jpg")
+                : r.Locandina
+            }).ToList();
+
+            return Json(response);
+        }
+
     }
 
     public class YouTubeSearchResponse
