@@ -24,7 +24,7 @@ namespace Streamify.Controllers
 
             foreach (var genere in generi)
             {
-                var contenuti = _database.GetContenutiPerGenere(genere, 0, 10);
+                var contenuti = _database.GetContenutiPerGenere(genere, 0, 30);
                 contenutiPerGenere[genere] = contenuti;
             }
 
