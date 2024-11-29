@@ -1,60 +1,52 @@
-// Desc: Script per la dashboard dell'utente
-
-// Funzione per la gestione dello scroll orizzontale delle righe di contenuti
-$(document).ready(function () {
-
-    $('.scroller-left, .scroller-right').click(function () {
-        const isLeft = $(this).hasClass('scroller-left');
-        const targetGenere = $(this).data('target');
-        const $rowWrapper = $(`.row-wrapper[data-genere='${targetGenere}']`);
-        const scrollAmount = 1000;
-
-        const newScrollPosition = isLeft
-            ? $rowWrapper.scrollLeft() - scrollAmount
-            : $rowWrapper.scrollLeft() + scrollAmount;
-
-        $rowWrapper.animate({ scrollLeft: newScrollPosition }, 100);
-    });
-
+﻿$(document).ready(function () {
     let isLoading = false;
     let offsets = {};
 
-    // Gestione caricamento dinamico dei contenuti
-    $('.row-wrapper').on('scroll', function () {
+    // Recupero del genere dalla pagina
+    const genere = $('h1.text-center').text().trim();
+
+    // Funzione per caricare i contenuti in base allo scroll
+    function loadMoreContent() {
         if (isLoading) return;
 
-        let $this = $(this);
-        const genere = $this.data('genere');
+        const windowHeight = $(window).height();
+        const scrollPosition = $(document).scrollTop();
+        const documentHeight = $(document).height();
 
-        if (!offsets.hasOwnProperty(genere)) {
-            offsets[genere] = 10;
-        }
-
-        if ($this[0].scrollWidth - $this.scrollLeft() <= $this.outerWidth() + 100) {
+        if (documentHeight - scrollPosition <= windowHeight + 100) {
             const limit = 10;
             isLoading = true;
+            console.log(`Caricamento di ${limit} contenuti per il genere ${genere}...`); //debug
 
-            console.log(`Caricamento di ${limit} contenuti per il genere ${genere}...`);
-            caricaContenutiDallaCache(genere, offsets[genere], limit).then(function (contenuti) {
-                $this.append(contenuti);
-                offsets[genere] += limit;
+            caricaContenutiDallaCache(genere, offsets[genere] || 0, limit).then(function (contenutiHtml) {
+                if (contenutiHtml) {
+                    $('.contenuti-grid').append(contenutiHtml);
+                    offsets[genere] = (offsets[genere] || 0) + limit;
+                }
+
                 isLoading = false;
-            }).catch(function () {
+            }).catch(function (error) {
+                console.error("Errore nel caricamento dei contenuti:", error); //debug
                 isLoading = false;
             });
         }
+    }
+
+    // Evento scroll per caricare i contenuti
+    $(window).scroll(function () {
+        loadMoreContent();
     });
 
-    // Funzione per caricare i contenuti nella cache o dalla cache
+    // Funzione per caricare i contenuti dalla cache o dalla cache
     function caricaContenutiDallaCache(genere, offset, limit) {
         const cacheKey = `contenuti_${genere}_${offset}_${limit}`;
         const cachedData = localStorage.getItem(cacheKey);
-
 
         if (cachedData) {
             const { data, timestamp } = JSON.parse(cachedData);
             const cacheDuration = 3600000;
             if (Date.now() - timestamp < cacheDuration) {
+                console.log("Caricamento dati dalla cache."); //debug
                 return Promise.resolve(data);
             } else {
                 localStorage.removeItem(cacheKey);
@@ -67,11 +59,13 @@ $(document).ready(function () {
                 method: 'GET',
                 data: { genere: genere, offset: offset, limit: limit },
                 success: function (data) {
+                    console.log("Risposta AJAX ricevuta:", data); //debug
                     localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: Date.now() }));
                     resolve(data);
                 },
-                error: function () {
-                    reject([]);
+                error: function (error) {
+                    console.error("Errore nella richiesta AJAX:", error) //debug
+                    reject([])
                 }
             });
         });
@@ -108,15 +102,16 @@ $(document).ready(function () {
 
                     popup.show();
                 } else {
-                    alert('Contenuto non trovato.');
+                    alert('Contenuto non trovato.'); //migliorare l'allert di errore
                 }
             },
             error: function () {
-                alert('Errore nel recupero dei dettagli del contenuto.');
+                alert('Errore nel recupero dei dettagli del contenuto.'); //migliorare l'allert di errore
             }
         });
     });
 
+    // Chiusura del popup
     $('#close-popup').click(function () {
         $('#dettagli-contenuto').hide();
         $('#dettagli-trailer').attr('src', '').hide();
@@ -140,4 +135,6 @@ $(document).ready(function () {
             }
         });
     }
+
+    loadMoreContent();
 });

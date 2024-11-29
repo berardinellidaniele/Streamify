@@ -1,0 +1,112 @@
+﻿.scroller-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.contenuti-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+    padding: 20px;
+    max-width: 100%;
+    justify-content: center;
+}
+
+.locandina-container {
+    width: 160px;
+    height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+}
+
+.locandina {
+    width: 140px;
+    height: 210px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.7);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    background-color: #1c1c1c;
+}
+
+    .locandina:hover {
+        transform: scale(1.15);
+        box-shadow: 0px 12px 20px rgba(229, 9, 20, 0.6);
+        border-radius: 10px;
+    }
+
+.dettagli-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.95);
+    color: white;
+    width: 80%;
+    max-width: 800px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    padding: 20px;
+}
+
+.dettagli-content {
+    text-align: center;
+}
+
+.close-popup {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+iframe {
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+#results-title {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: left
+}
+
+#search-results {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px;
+}
+
+#search-results-container {
+    display: none;
+    flex-direction: column;
+    padding: 20px;
+    background-color: black;
+    color: white;
+    width: 100%;
+    border: 2px solid red;
+    min-height: 300px;
+}
+
+.banner-genere {
+    display: block;
+    margin: 20px auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+

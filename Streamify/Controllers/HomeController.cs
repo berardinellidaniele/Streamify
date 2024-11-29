@@ -65,6 +65,45 @@ namespace Streamify.Controllers
         }
 
         [HttpGet]
+        public IActionResult Generi()
+        {
+            var contenutipergenere = new Dictionary<string, List<Contenuto>>();
+            var generi = _database.GetGeneriUnici();
+
+            foreach (var genere in generi)
+            {
+                var contenuti = _database.GetContenutiPerGenere(genere, 0, 30);
+                contenutipergenere[genere] = contenuti;
+            }
+
+            ViewBag.ContenutiPerGenere = contenutipergenere;
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult MostraGenere(string genere)
+        {
+            var contenuti = _database.GetContenutiPerGenere(genere, 0, 30);
+
+            ViewBag.Contenuti = contenuti;
+            ViewBag.Genere = genere;
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult CercaContenutoOGenere(string query)
+        {
+            var contenuti = _database.CercaContenutoOGeneri(query);
+
+            ViewBag.Contenuti = contenuti;
+            ViewBag.Query = query;
+
+            return View();
+        }
+
+
+        [HttpGet]
         public IActionResult CaricaPiuContenuti(string genere, int offset, int limit)
         {
             var contenuti = _database.GetContenutiPerGenere(genere, offset, limit);
@@ -84,14 +123,6 @@ namespace Streamify.Controllers
             var contenuti = _database.GetContenutiPerGenere(genere, "tvSeries", offset, limit);
             return PartialView("_ContenutiPartial", contenuti);
         }
-
-        [HttpGet]
-        public IActionResult CaricaPiuContenutiGeneri(string genere, int offset, int limit)
-        {
-            var contenuti = _database.GetContenutiPerGenere(genere, offset, limit);
-            return PartialView("_ContenutiPartial", contenuti);
-        }
-
 
         [HttpGet]
         public IActionResult Dettagli(int id)
@@ -168,23 +199,6 @@ namespace Streamify.Controllers
             return Json(response);
         }
 
-        [HttpGet]
-        public IActionResult Generi()
-        {
-            var contenutipergenere = new Dictionary<string, List<Contenuto>>();
-            var generi = _database.GetGeneriUnici();
-
-            foreach(var genere in generi)
-            {
-                var contenuti = _database.GetContenutiPerGenere(genere, 0, 30);
-                contenutipergenere[genere] = contenuti;
-            }
-
-            ViewBag.ContenutiPerGenere = contenutipergenere;
-            return View();
-        }
-
-       
 
     }
 

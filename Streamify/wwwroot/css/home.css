@@ -157,22 +157,25 @@ iframe {
     text-align: left
 }
 
-#search-results {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 10px;
-}
-
 #search-results-container {
-    display: none;
     flex-direction: column;
     padding: 20px;
     background-color: black;
     color: white;
     width: 100%;
-    border: 2px solid red;
     min-height: 300px;
+    border: 2px solid red;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
+
+#search-results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
 
 .banner-genere {
     display: block;
