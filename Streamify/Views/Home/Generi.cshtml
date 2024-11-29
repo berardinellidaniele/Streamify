@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Generi";
+    var contenutiPerGenere = ViewBag.ContenutiPerGenere as Dictionary<string, List<Streamify.Models.Contenuto>>;
+}
+
+<link rel="stylesheet" href="~/css/home.css" />
+<link rel="stylesheet" href="~/css/generi.css" />
+
+<div id="main-content" class="generi-page">
+    @if (contenutiPerGenere != null && contenutiPerGenere.Keys.Any())
+    {
+        foreach (var genere in contenutiPerGenere.Keys)
+        {
+            var genereNormalizzato = genere.ToLowerInvariant()
+            .Replace(" ", "")
+            .Replace("&", "e")
+            .Replace("'", "")
+            .Replace("\"", "")
+            .Replace(",", "")
+            .Replace(".", "")
+            .Replace("_", "");
+
+            <div class="container-fluid">
+                <div class="text-center">
+                    <img src="~/images/grafiche/grafica_@($"{genereNormalizzato}.png")"
+                         alt="Banner @genere"
+                         class="banner-genere" />
+                </div>
+                <div class="scroller-container">
+                    <button class="scroller-left" data-target="@genere">&#8249;</button>
+                    <div class="row-wrapper" data-genere="@genere" data-offset="0">
+                        @foreach (var contenuto in contenutiPerGenere[genere])
+                        {
+                            <div class="locandina-container">
+                                <img class="locandina" src="@contenuto.Locandina"
+                                     alt="@contenuto.Nome"
+                                     data-id="@contenuto.ID_Contenuto"
+                                     data-nome="@contenuto.Nome"
+                                     data-descrizione="@contenuto.Descrizione"
+                                     data-trailer-keyword="@contenuto.Nome"
+                                     onerror="this.onerror=null; this.src='/images/locandina_film_default.jpg';" />
+                            </div>
+                        }
+                    </div>
+                    <button class="scroller-right" data-target="@genere">&#8250;</button>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-center text-muted">Nessun contenuto disponibile.</p>
+    }
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/generi.js"></script>
+<script src="~/js/ricerca.js"></script>
+<script src="~/js/dashboard.js"></script>

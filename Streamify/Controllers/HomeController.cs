@@ -86,6 +86,14 @@ namespace Streamify.Controllers
         }
 
         [HttpGet]
+        public IActionResult CaricaPiuContenutiGeneri(string genere, int offset, int limit)
+        {
+            var contenuti = _database.GetContenutiPerGenere(genere, offset, limit);
+            return PartialView("_ContenutiPartial", contenuti);
+        }
+
+
+        [HttpGet]
         public IActionResult Dettagli(int id)
         {
             var contenuto = _database.GetContenuto(id);
@@ -160,6 +168,24 @@ namespace Streamify.Controllers
             return Json(response);
         }
 
+        [HttpGet]
+        public IActionResult Generi()
+        {
+            var contenutipergenere = new Dictionary<string, List<Contenuto>>();
+            var generi = _database.GetGeneriUnici();
+
+            foreach(var genere in generi)
+            {
+                var contenuti = _database.GetContenutiPerGenere(genere, 0, 30);
+                contenutipergenere[genere] = contenuti;
+            }
+
+            ViewBag.ContenutiPerGenere = contenutipergenere;
+            return View();
+        }
+
+       
+
     }
 
     public class YouTubeSearchResponse
@@ -173,7 +199,7 @@ namespace Streamify.Controllers
     }
 
     public class YouTubeSearchId
-    {
+    {   
         public string VideoId { get; set; }
     }
 }

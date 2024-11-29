@@ -1,0 +1,13 @@
+﻿
+.generi-page .banner-genere {
+    display: block;
+    margin: 15px auto; 
+    max-width: 80%; 
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+}
+
+.generi-page #main-content .container-fluid {
+    margin-bottom: 40px; 
+}

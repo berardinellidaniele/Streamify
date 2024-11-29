@@ -1,6 +1,3 @@
-// Desc: Script per la dashboard dell'utente
-
-// Funzione per la gestione dello scroll orizzontale delle righe di contenuti
 $(document).ready(function () {
     $('.scroller-left, .scroller-right').click(function () {
         const isLeft = $(this).hasClass('scroller-left');
@@ -18,11 +15,13 @@ $(document).ready(function () {
     let isLoading = false;
     let offsets = {};
 
+    const isGeneriPage = window.location.pathname.includes('/Home/Generi');
+
     // Gestione caricamento dinamico dei contenuti
     $('.row-wrapper').on('scroll', function () {
         if (isLoading) return;
 
-        let $this = $(this);
+        const $this = $(this);
         const genere = $this.data('genere');
 
         if (!offsets.hasOwnProperty(genere)) {
@@ -33,7 +32,7 @@ $(document).ready(function () {
             const limit = 10;
             isLoading = true;
 
-            caricaContenutiDallaCache(genere, offsets[genere], limit).then(function (contenuti) {
+            caricaContenuti(genere, offsets[genere], limit).then(function (contenuti) {
                 $this.append(contenuti);
                 offsets[genere] += limit;
                 isLoading = false;
@@ -43,29 +42,15 @@ $(document).ready(function () {
         }
     });
 
-    // Funzione per caricare i contenuti nella cache o dalla cache
-    function caricaContenutiDallaCache(genere, offset, limit) {
-        const cacheKey = `contenuti_${genere}_${offset}_${limit}`;
-        const cachedData = localStorage.getItem(cacheKey);
-
-
-        if (cachedData) {
-            const { data, timestamp } = JSON.parse(cachedData);
-            const cacheDuration = 3600000;
-            if (Date.now() - timestamp < cacheDuration) {
-                return Promise.resolve(data);
-            } else {
-                localStorage.removeItem(cacheKey);
-            }
-        }
+    function caricaContenuti(genere, offset, limit) {
+        const url = isGeneriPage ? '/Home/CaricaPiuContenutiGeneri' : '/Home/CaricaPiuContenuti';
 
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: '/Home/CaricaPiuContenuti',
+                url: url,
                 method: 'GET',
                 data: { genere: genere, offset: offset, limit: limit },
                 success: function (data) {
-                    localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: Date.now() }));
                     resolve(data);
                 },
                 error: function () {
@@ -88,19 +73,13 @@ $(document).ready(function () {
                 if (data.success) {
                     $('#dettagli-titolo').text(data.nome);
                     $('#dettagli-descrizione').text(data.descrizione);
-                    $('#dettagli-genere').text(data.genere);
-                    $('#dettagli-rating').text(data.rating);
-                    $('#dettagli-durata').text(data.durata);
-                    $('#dettagli-episodi').text(data.episodi);
-                    $('#dettagli-locandina').attr('src', data.locandina).show();
+                    $('#dettagli-trailer').attr('src', '').hide();
 
                     const trailerKeyword = encodeURIComponent(data.nome);
 
                     fetchTrailerUrl(trailerKeyword, function (url) {
                         if (url) {
                             $('#dettagli-trailer').attr('src', url + "?autoplay=1").show();
-                        } else {
-                            $('#dettagli-trailer').hide();
                         }
                     });
 
@@ -120,7 +99,6 @@ $(document).ready(function () {
         $('#dettagli-trailer').attr('src', '').hide();
     });
 
-    // Funzione per recuperare l'URL del trailer di un contenuto
     function fetchTrailerUrl(query, callback) {
         $.ajax({
             url: '/Home/GetTrailerUrl',

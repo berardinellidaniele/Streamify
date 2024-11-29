@@ -173,3 +173,17 @@ iframe {
     border: 2px solid red;
     min-height: 300px;
 }
+
+.banner-genere {
+    display: block;
+    margin: 20px auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+#main-content .container-fluid {
+    margin-bottom: 40px;
+}
+
