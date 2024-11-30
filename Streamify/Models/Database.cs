@@ -56,6 +56,43 @@ public class Database
         return db.QueryFirstOrDefault<int>(query, new { Email = email, PasswordHash = passwordHash }) == 1;
     }
 
+    public bool AggiungiPreferenza(int id_utente, int id_contenuto)
+    {
+        const string query = "INSERT INTO Preferenza (ID_Utente, ID_Contenuto) VALUES (@ID_Utente, @ID_Contenuto)";
+        using var db = CreateConnection();
+        var result = db.Execute(query, new { ID_Utente = id_utente, ID_Contenuto = id_contenuto });
+        return result > 0;
+    }
+
+    public bool ControllaPreferenza(int id_utente, int id_contenuto)
+    {
+        const string query = @"
+        SELECT COUNT(1)
+        FROM Preferenza
+        WHERE ID_Utente = @ID_Utente AND ID_Contenuto = @ID_Contenuto";
+
+        using var db = CreateConnection();
+        var count = db.ExecuteScalar<int>(query, new { ID_Utente = id_utente, ID_Contenuto = id_contenuto });
+        return count > 0;
+    }
+
+    public bool AggiungiCronologia(int id_utente, int id_contenuto)
+    {
+        const string query = "INSERT INTO Cronologia VALUES (@ID_Utente, @ID_Contenuto, @Data_Inizio, 'In corso')";
+        using var db = CreateConnection();
+        var result = db.Execute(query, new { ID_Utente = id_utente, ID_Contenuto = id_contenuto, Data_Inizio = DateTime.Now });
+        return result > 0;
+    }
+
+
+    public bool RimuoviPreferenza(int id_utente, int id_contenuto)
+    {
+        const string query = "DELETE FROM Preferenza WHERE ID_Utente = @ID_Utente AND ID_Contenuto = @ID_Contenuto";
+        using var db = CreateConnection();
+        var result = db.Execute(query, new { ID_Utente = id_utente, ID_Contenuto = id_contenuto });
+        return result > 0;
+    }
+
     public List<Contenuto> GetContenutiPerGenere(string genere, int offset, int limit)
     {
         using var db = CreateConnection();

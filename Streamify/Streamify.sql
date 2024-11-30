@@ -43,7 +43,7 @@ CREATE TABLE Cronologia (
     ID_Cronologia INT PRIMARY KEY IDENTITY(1,1),
     ID_Utente INT NOT NULL,
     ID_Contenuto INT NOT NULL,
-    Data_Inizio DATE NOT NULL,
+    Data_Inizio DATETIME NOT NULL,
     Stato NVARCHAR(50) NOT NULL,
     FOREIGN KEY (ID_Utente) REFERENCES Utente(ID_Utente),
     FOREIGN KEY (ID_Contenuto) REFERENCES Contenuto(ID_Contenuto)

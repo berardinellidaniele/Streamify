@@ -10,4 +10,5 @@
             window.location.replace(`/Home/CercaContenutoOgenere?query=${query}`);
         }
     });
+
 });

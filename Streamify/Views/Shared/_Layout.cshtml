@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http
 @{
     var isLoggedin = Context.Session.GetString("EmailUtente") != null;
+    var idUtente = Context.Session.GetString("IdUtente");
     var username = Context.Session.GetString("NomeUtente");
 }
 

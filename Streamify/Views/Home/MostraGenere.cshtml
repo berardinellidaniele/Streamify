@@ -5,6 +5,7 @@
 }
 
 <link rel="stylesheet" href="~/css/mostragenere.css" />
+<link rel="stylesheet" href="~/css/Button.css" />
 
 <h1 class="text-center mt-5">@genere</h1>
 
@@ -35,9 +36,13 @@
 
 <div id="dettagli-contenuto" class="dettagli-popup" style="display: none;">
     <div class="dettagli-content">
+        <button id="like-button" class="logout-button">
+            <i class="far fa-heart" aria-hidden="true"></i>
+        </button>
         <button id="close-popup" class="close-popup">&times;</button>
-        <h2 id="dettagli-titolo"></h2>
+        <h2 id="dettagli-titolo" class="bottom-three"></h2>
         <iframe class="bottom-three" id="dettagli-trailer" src="" frameborder="0" allow='autoplay' allowfullscreen></iframe>
+        <button id="watch-button" class="button-85 bottom-three" role="button">Guarda</button>
         <p id="dettagli-descrizione"></p>
     </div>
 </div>

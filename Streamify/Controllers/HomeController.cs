@@ -145,12 +145,21 @@ namespace Streamify.Controllers
                 return Json(new { success = false, message = "Contenuto non trovato" });
             }
 
+            var isLoggedin = HttpContext.Session.GetString("EmailUtente") != null;
+            int idUtente = 0;
+
+            if (isLoggedin)
+            {
+                idUtente = int.Parse(HttpContext.Session.GetString("IdUtente"));
+            }
+
             return Json(new
             {
                 success = true,
                 nome = contenuto.Nome,
                 descrizione = contenuto.Descrizione,
-                trailerKeyword = contenuto.Nome
+                trailerKeyword = contenuto.Nome,
+                like = isLoggedin ? _database.ControllaPreferenza(idUtente, id) : false
             });
         }
 
@@ -185,12 +194,12 @@ namespace Streamify.Controllers
             }
 
             var risultati = _database.CercaContenutoOGeneri(search);
-           
+
             var response = risultati.Select(r => new
             {
                 id = r.ID_Contenuto,
                 nome = r.Nome,
-                descrizione = r.Descrizione, 
+                descrizione = r.Descrizione,
                 locandina = string.IsNullOrEmpty(r.Locandina) || !Uri.IsWellFormedUriString(r.Locandina, UriKind.Absolute)
                 ? Url.Content("~/images/locandina_film_default.jpg")
                 : r.Locandina
@@ -241,7 +250,60 @@ namespace Streamify.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Aggiungi_Preferiti(int id_contenuto)
+        {
+            if (HttpContext.Session.GetString("EmailUtente") != null)
+            {
+                int id_utente = int.Parse(HttpContext.Session.GetString("IdUtente"));
+                var query = _database.AggiungiPreferenza(id_utente, id_contenuto);
+                if (query == false)
+                {
+                    return Json(new { success = false });
+                }
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = false });
+            }
+        }
 
+        [HttpGet]
+        public IActionResult Rimuovi_Preferiti(int id_contenuto)
+        {
+            if (HttpContext.Session.GetString("EmailUtente") != null)
+            {
+                int id_utente = int.Parse(HttpContext.Session.GetString("IdUtente"));
+                var query = _database.RimuoviPreferenza(id_utente, id_contenuto);
+                if (query == false)
+                {
+                    return Json(new { success = false });
+                }
+                return Json(new { success = true });
+            }
+            else
+                return Json(new { success = false });
+        }
+
+        [HttpGet]
+        public IActionResult Aggiungi_Cronologia(int id_contenuto)
+        {
+            if (HttpContext.Session.GetString("EmailUtente") != null)
+            {
+                int id_utente = int.Parse(HttpContext.Session.GetString("IdUtente"));
+                var query = _database.AggiungiCronologia(id_utente, id_contenuto);
+                if (query == false)
+                {
+                    return Json(new { success = false });
+                }
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = false });
+            }
+        }
 
     }
 
@@ -249,14 +311,12 @@ namespace Streamify.Controllers
     {
         public List<YouTubeSearchItem> Items { get; set; }
     }
-
     public class YouTubeSearchItem
     {
         public YouTubeSearchId Id { get; set; }
     }
-
     public class YouTubeSearchId
-    {   
+    {
         public string VideoId { get; set; }
     }
 }

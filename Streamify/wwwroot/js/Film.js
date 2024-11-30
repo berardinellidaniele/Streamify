@@ -50,6 +50,7 @@ $(document).ready(function () {
     // Gestione apertura popup con dettagli
     $(document).on('click', '.locandina', function () {
         const contentId = $(this).data('id');
+        id_contenuto = contentId;
         const popup = $('#dettagli-contenuto');
 
         $.ajax({
@@ -65,6 +66,12 @@ $(document).ready(function () {
                     $('#dettagli-durata').text(data.durata);
                     $('#dettagli-episodi').text(data.episodi);
                     $('#dettagli-locandina').attr('src', data.locandina).show();
+
+                    if (data.like) {
+                        like = true;
+                        var icon = $('#like-button').find('i');
+                        icon.removeClass('far').addClass('fas');
+                    }
 
                     const trailerKeyword = encodeURIComponent(data.nome);
 
@@ -90,6 +97,67 @@ $(document).ready(function () {
     $('#close-popup').click(function () {
         $('#dettagli-contenuto').hide();
         $('#dettagli-trailer').attr('src', '').hide();
+    });
+
+    var like = false;
+
+    $('#like-button').click(function () {
+        var $this = $(this);
+        var icon = $this.find('i');
+        like = !like;
+        if (like) {
+            $.ajax({
+                url: '/Home/Aggiungi_Preferiti',
+                method: 'GET',
+                data: { id_contenuto: id_contenuto },
+                success: function (data) {
+                    if (data.success) {
+                        icon.removeClass('far').addClass('fas');
+                        alert('Contenuto aggiunto ai preferiti!');
+                    } else {
+                        alert('Effettua il login per poter salvare i contenuti nei preferiti.');
+                    }
+                },
+                error: function () {
+                    alert('Errore nell\'aggiunta del contenuto ai preferiti.');
+                }
+            });
+        } else {
+            $.ajax({
+                url: '/Home/Rimuovi_Preferiti',
+                method: 'GET',
+                data: { id_contenuto: id_contenuto },
+                success: function (data) {
+                    if (data.success) {
+                        icon.removeClass('fas').addClass('far');
+                        alert('Contenuto rimosso dai preferiti!');
+                    } else {
+                        alert('Errore nella rimozione del contenuto dai preferiti.');
+                    }
+                },
+                error: function () {
+                    alert('Errore nella rimozione del contenuto dai preferiti.');
+                }
+            });
+        }
+    });
+
+    $('#watch-button').click(function () {
+        $.ajax({
+            url: '/Home/Aggiungi_Cronologia',
+            method: 'GET',
+            data: { id_contenuto: id_contenuto },
+            success: function (data) {
+                if (data.success) {
+                    alert('Contenuto guardato!');
+                } else {
+                    alert('Effettua il login per poter guardare il contenuto');
+                }
+            },
+            error: function () {
+                alert('Errore nella visione del contenuto.');
+            }
+        });
     });
 
     function fetchTrailerUrl(query, callback) {
