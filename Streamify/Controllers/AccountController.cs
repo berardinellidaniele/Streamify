@@ -28,7 +28,9 @@ namespace Streamify.Controllers
                 var passwordHashata = HashPassword(modelloLogin.Password);
                 if (_database.ValidazioneUtente(modelloLogin.Email, passwordHashata))
                 {
+                    var utente = _database.OttieniUtenteDaEmail(modelloLogin.Email);
                     HttpContext.Session.SetString("EmailUtente", modelloLogin.Email);
+                    HttpContext.Session.SetString("NomeUtente", utente.Nome);
                     return RedirectToAction("Index", "Home");
                 }
                 else

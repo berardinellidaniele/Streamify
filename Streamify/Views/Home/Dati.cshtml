@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Dati";
+    var nome = ViewBag.Nome;
+    var cognome = ViewBag.Cognome;
+    var email = ViewBag.Email;
+}
+
+<div class="dati-container">
+    <h2 class="dati-title">Informazioni Utente</h2>
+    <div class="dati-content">
+        <p><strong>Nome:</strong> @nome</p>
+        <p><strong>Cognome:</strong> @cognome</p>
+        <p><strong>Email:</strong> @email</p>
+    </div>
+</div>

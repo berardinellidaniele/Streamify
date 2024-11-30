@@ -140,4 +140,18 @@ public class Database
         using var db = CreateConnection();
         return db.QueryFirstOrDefault<Contenuto>(query, new { ID_Contenuto = id });
     }
+
+    public (string Nome, string Cognome) NomeCognome(string email)
+    {
+        const string query = "SELECT Nome, Cognome from Utente WHERE Email = @Email";
+        using var db = CreateConnection();
+        var result = db.QuerySingleOrDefault<(string Nome, string Cognome)>(query, new { Email = email });
+
+        if (result.Equals(default((string Nome, string Cognome))))
+        {
+            return ("Nome non trovato", "Cognome non trovato");
+        }
+
+        return result;
+    }
 }

@@ -80,6 +80,7 @@ namespace Streamify.Controllers
             return View();
         }
 
+
         [HttpGet]
         public IActionResult MostraGenere(string genere)
         {
@@ -101,7 +102,6 @@ namespace Streamify.Controllers
 
             return View();
         }
-
 
         [HttpGet]
         public IActionResult CaricaPiuContenuti(string genere, int offset, int limit)
@@ -198,6 +198,49 @@ namespace Streamify.Controllers
 
             return Json(response);
         }
+
+        [HttpGet]
+        public IActionResult Dati()
+        {
+            var email_utente = HttpContext.Session.GetString("EmailUtente");
+
+            if (string.IsNullOrEmpty(email_utente))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var utente = _database.OttieniUtenteDaEmail(email_utente);
+
+            ViewBag.Nome = utente?.Nome;
+            ViewBag.Cognome = utente?.Cognome;
+            ViewBag.Email = utente?.Email;
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Opzioni()
+        {
+            var email_utente = HttpContext.Session.GetString("EmailUtente");
+
+            if (string.IsNullOrEmpty(email_utente))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var (nome, cognome) = _database.NomeCognome(email_utente);
+
+            if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(cognome))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            ViewBag.Nome = nome;
+            ViewBag.Cognome = cognome;
+
+            return View();
+        }
+
 
 
     }

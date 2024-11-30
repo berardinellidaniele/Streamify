@@ -27,11 +27,15 @@
             color: #bbb;
         }
 
+
 .search-bar {
     position: relative;
     display: flex;
     align-items: center;
+    max-width: 400px;
+    margin-right: -10px;
 }
+    
 
     .search-bar .search-input {
         background-color: transparent;
@@ -65,15 +69,42 @@
         opacity: 1;
     }
 
-.profile-icon {
-    height: 40px;
-    width: 40px;
-    border-radius: 5px;
-    object-fit: cover;
-    margin-left: 15px;
+
+.icon-container
+{
+    display: flex;
+    align-items: center;
+
+}
+.settings-icon, .user-icon {
+    font-size: 16px;
+    color: white;
+    margin-right: 5px;
+    margin-left: 11px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
     cursor: pointer;
+    vertical-align: middle;
+    line-height: 1;
 }
 
-    .profile-icon:hover {
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+.settings-link
+{
+    text-decoration: none;
+}
+
+.user-icon:hover, .settings-icon:hover {
+        box-shadow: 0 0 15px rgba(229, 9, 20, 0.8), 0 0 30px rgba(229, 9, 20, 0.6);
+        transform: scale(1.1);
+        background-color: transparent;
     }
+
+.navbar .nav-item span {
+    color: white;
+    font-weight: bold;
+}
+
+.navbar-nav.ms-4 {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+}

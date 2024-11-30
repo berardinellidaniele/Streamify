@@ -1,0 +1,103 @@
+﻿body {
+    background-color: black;
+    color: white;
+}
+
+.saluto-container {
+    text-align: center;
+    margin-top: 50px;
+    color: white;
+    font-size: 1.8rem;
+}
+
+.opzioni-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.opzioni-sinistra, .opzioni-centro, .opzioni-destra {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+
+.opzioni-sinistra:hover,
+.opzioni-centro:hover,
+.opzioni-destra:hover {
+    box-shadow: 0 0 20px rgba(229, 9, 20, 0.8), 0 0 40px rgba(229, 9, 20, 0.6);
+    transform: scale(1.05);
+    color: rgba(229, 9, 20, 0.9);
+}
+
+.options-icon {
+    font-size: 50px;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+    color: white;
+}
+
+.options-icon:hover {
+    transform: scale(1.1);
+}
+
+
+.logout-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+
+
+
+.logout-icon {
+    font-size: 30px;
+    margin-right: 10px;
+    color: white;
+   
+}
+
+.logout-icon:hover {
+}
+
+
+.logout-button {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .opzioni-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .opzioni-sinistra,
+    .opzioni-centro,
+    .opzioni-destra {
+        margin-bottom: 20px;
+    }
+}
