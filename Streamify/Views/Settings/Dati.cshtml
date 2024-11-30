@@ -3,7 +3,11 @@
     var nome = ViewBag.Nome;
     var cognome = ViewBag.Cognome;
     var email = ViewBag.Email;
+    var data_nascita = ViewBag.DataNascita;
+    var data_iscrizione = ViewBag.DataIscrizione;
 }
+
+<link rel="stylesheet" href="~/css/dati.css" />
 
 <div class="dati-container">
     <h2 class="dati-title">Informazioni Utente</h2>
@@ -11,5 +15,7 @@
         <p><strong>Nome:</strong> @nome</p>
         <p><strong>Cognome:</strong> @cognome</p>
         <p><strong>Email:</strong> @email</p>
+        <p><strong>Data di nascita:</strong> @data_nascita</p>
+        <p><strong>Data di iscrizione:</strong> @data_iscrizione</p>
     </div>
 </div>

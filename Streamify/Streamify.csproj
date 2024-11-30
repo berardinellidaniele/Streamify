@@ -11,6 +11,7 @@
     <Content Remove="wwwroot\js\dashboard.js" />
     <Content Remove="wwwroot\js\Film.js" />
     <Content Remove="wwwroot\js\NewFile.txt" />
+    <Content Remove="wwwroot\js\Preferiti.js" />
     <Content Remove="wwwroot\js\SerieTV.js" />
   </ItemGroup>
 
@@ -28,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\js\Preferiti.js" />
     <None Include="wwwroot\js\SerieTV.js" />
     <None Include="wwwroot\js\Film.js" />
     <None Include="wwwroot\js\dashboard.js" />

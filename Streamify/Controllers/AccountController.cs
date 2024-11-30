@@ -31,6 +31,7 @@ namespace Streamify.Controllers
                     var utente = _database.OttieniUtenteDaEmail(modelloLogin.Email);
                     HttpContext.Session.SetString("EmailUtente", modelloLogin.Email);
                     HttpContext.Session.SetString("NomeUtente", utente.Nome);
+                    HttpContext.Session.SetString("IdUtente", utente.ID_Utente.ToString());
                     return RedirectToAction("Index", "Home");
                 }
                 else

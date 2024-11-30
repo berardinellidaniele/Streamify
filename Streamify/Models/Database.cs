@@ -59,13 +59,72 @@ public class Database
     public List<Contenuto> GetContenutiPerGenere(string genere, int offset, int limit)
     {
         using var db = CreateConnection();
-        return db.Query<Contenuto>($"SELECT * FROM Contenuto WHERE Genere LIKE '%{genere}%' ORDER BY ID_Contenuto OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY").AsList();
+        var result = db.Query<Contenuto>($"SELECT * FROM Contenuto WHERE Genere LIKE '%{genere}%' ORDER BY ID_Contenuto OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY").AsList();
+
+        foreach (var contenuto in result)
+        {
+            if (contenuto != null && !string.IsNullOrEmpty(contenuto.Descrizione))
+            {
+                var words = contenuto.Descrizione.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (words.Length > 73)
+                {
+                    contenuto.Descrizione = string.Join(" ", words.Take(73)) + "...";
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public List<Contenuto> GetContenutiPerGenerePreferiti(string genere, int id_utente, int offset, int limit)
+    {
+        using var db = CreateConnection();
+        var result = db.Query<Contenuto>($@"
+                                        SELECT C.* 
+                                        FROM Contenuto C
+                                        JOIN Preferenza P ON P.ID_Contenuto = C.ID_Contenuto
+                                        WHERE P.ID_Utente = {id_utente}
+                                        AND C.Genere LIKE '%{genere}%' 
+                                        ORDER BY C.ID_Contenuto
+                                        OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY
+        ").AsList();
+
+        foreach (var contenuto in result)
+        {
+            if (contenuto != null && !string.IsNullOrEmpty(contenuto.Descrizione))
+            {
+                var words = contenuto.Descrizione.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (words.Length > 73)
+                {
+                    contenuto.Descrizione = string.Join(" ", words.Take(73)) + "...";
+                }
+            }
+        }
+
+        return result;
     }
 
     public List<Contenuto> GetContenutiPerGenere(string genere, string tipo, int offset, int limit)
     {
         using var db = CreateConnection();
-        return db.Query<Contenuto>($"SELECT * FROM Contenuto WHERE Genere LIKE '%{genere}%' AND Tipo='{tipo}' ORDER BY ID_Contenuto OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY").AsList();
+        var result = db.Query<Contenuto>($"SELECT * FROM Contenuto WHERE Genere LIKE '%{genere}%' AND Tipo='{tipo}' ORDER BY ID_Contenuto OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY").AsList();
+
+        foreach (var contenuto in result)
+        {
+            if (contenuto != null && !string.IsNullOrEmpty(contenuto.Descrizione))
+            {
+                var words = contenuto.Descrizione.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (words.Length > 73)
+                {
+                    contenuto.Descrizione = string.Join(" ", words.Take(73)) + "...";
+                }
+            }
+        }
+
+        return result;
     }
 
     public bool AggiungiContenuto(Contenuto contenuto)
@@ -126,20 +185,49 @@ public class Database
             OR LOWER(Genere) LIKE @Search
         ORDER BY ID_Contenuto";
 
-
         using var db = CreateConnection();
-        return db.Query<Contenuto>(query, new
+        var result = db.Query<Contenuto>(query, new
         {
             Search = $"%{search}%"
         }).ToList();
+
+        foreach (var contenuto in result)
+        {
+            if (contenuto != null && !string.IsNullOrEmpty(contenuto.Descrizione))
+            {
+                var words = contenuto.Descrizione.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (words.Length > 73)
+                {
+                    contenuto.Descrizione = string.Join(" ", words.Take(73)) + "...";
+                }
+            }
+        }
+
+        return result;
     }
+
 
     public Contenuto GetContenuto(int id)
     {
         const string query = "SELECT * FROM Contenuto WHERE ID_Contenuto = @ID_Contenuto";
         using var db = CreateConnection();
-        return db.QueryFirstOrDefault<Contenuto>(query, new { ID_Contenuto = id });
+        Contenuto result = db.QueryFirstOrDefault<Contenuto>(query, new { ID_Contenuto = id });
+
+        if (result != null)
+        {
+            var parole = result.Descrizione.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (parole.Length > 73)
+            {
+               result.Descrizione = string.Join(" ", parole.Take(73)) + "...";
+            }
+        }
+
+        return result;
     }
+
+
 
     public (string Nome, string Cognome) NomeCognome(string email)
     {

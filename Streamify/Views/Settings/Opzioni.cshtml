@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Opzioni";
+    var nome = ViewBag.Nome; var cognome = ViewBag.Cognome;
+}
+
+<div class="saluto-container">
+    <h2>Ciao @nome @cognome 👋</h2>
+</div>
+
+<div class="opzioni-container">
+    <div class="opzioni-centro">
+        <i class="fa-solid fa-clock-rotate-left options-icon"></i>
+        <span>Cronologia</span>
+    </div>
+    <div class="opzioni-destra" onclick="window.location.href='/Settings/Dati' ;">
+        <i class="fa-solid fa-circle-info options-icon"></i>
+        <span>Dati</span>
+    </div>
+</div>
+    
+<div class="logout-container">
+    <form asp-controller="Account" asp-action="Logout" method="post">
+        <button type="submit" class="logout-button">
+            <i class="fa-solid fa-right-from-bracket logout-icon"></i>
+            <span>Logout</span>
+        </button>
+    </form>
+</div>

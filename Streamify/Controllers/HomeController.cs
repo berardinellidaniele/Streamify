@@ -157,7 +157,7 @@ namespace Streamify.Controllers
         [HttpGet]
         public async Task<JsonResult> GetTrailerUrl(string trailerKeyword)
         {
-            var query = Uri.EscapeDataString(trailerKeyword + " official" + " trailer");
+            var query = trailerKeyword + "officialtrailer";
 
             var url = $"https://www.googleapis.com/youtube/v3/search?part=snippet&q={query}&type=video&autoplay=1&vq=hd1080&key={_youtubeApiKey}";
 

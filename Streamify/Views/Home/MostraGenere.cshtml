@@ -37,10 +37,16 @@
     <div class="dettagli-content">
         <button id="close-popup" class="close-popup">&times;</button>
         <h2 id="dettagli-titolo"></h2>
-        <iframe id="dettagli-trailer" src="" frameborder="0" allow='autoplay' allowfullscreen></iframe>
+        <iframe class="bottom-three" id="dettagli-trailer" src="" frameborder="0" allow='autoplay' allowfullscreen></iframe>
         <p id="dettagli-descrizione"></p>
     </div>
 </div>
+
+<style>
+    .bottom-three {
+        margin-bottom: 2cm;
+    }
+</style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

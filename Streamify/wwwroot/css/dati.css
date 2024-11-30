@@ -1,0 +1,50 @@
+﻿.dati-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dati-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.dati-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #555;
+}
+
+    .dati-content p {
+        margin: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        padding: 5px;
+    }
+
+    .dati-content strong {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .dati-content p:nth-child(even) {
+        background-color: #f2f2f2;
+        padding: 8px;
+        border-radius: 5px;
+    }
+
+.dati-container {
+    border: 1px solid #ddd;
+}
+
+.dati-content p {
+    font-family: 'Arial', sans-serif;
+}
