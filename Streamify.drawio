@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="24.8.6">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0" version="25.0.1">
   <diagram name="Pagina-1" id="YwjGSr0FWHyBBaABWbj7">
-    <mxGraphModel dx="1195" dy="643" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1050" dy="530" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -256,36 +256,6 @@
         <mxCell id="e4waLGMk03CbxaB5QYb_-75" value="ID_Preferenza" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="681" y="168" width="100" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="e4waLGMk03CbxaB5QYb_-76" value="" style="endArrow=none;html=1;rounded=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="e4waLGMk03CbxaB5QYb_-77" target="e4waLGMk03CbxaB5QYb_-73" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="591" y="135" as="sourcePoint" />
-            <mxPoint x="581" y="130" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="e4waLGMk03CbxaB5QYb_-77" value="Voto" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-          <mxGeometry x="750" y="120" width="50" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="e4waLGMk03CbxaB5QYb_-80" value="Preferenza_Genere" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="373" y="360" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="e4waLGMk03CbxaB5QYb_-81" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=1;exitDx=0;exitDy=0;" parent="1" source="e4waLGMk03CbxaB5QYb_-80" target="e4waLGMk03CbxaB5QYb_-82" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="616" y="290" as="sourcePoint" />
-            <mxPoint x="736" y="380" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="e4waLGMk03CbxaB5QYb_-82" value="ID_Preferenza_Genere" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-          <mxGeometry x="423" y="440" width="140" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="e4waLGMk03CbxaB5QYb_-83" value="" style="endArrow=none;html=1;rounded=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="e4waLGMk03CbxaB5QYb_-84" target="e4waLGMk03CbxaB5QYb_-80" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="596" y="345" as="sourcePoint" />
-            <mxPoint x="586" y="340" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="e4waLGMk03CbxaB5QYb_-84" value="Genere" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-          <mxGeometry x="500" y="360" width="60" height="30" as="geometry" />
-        </mxCell>
         <mxCell id="e4waLGMk03CbxaB5QYb_-85" value="Aggiunge" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="120" y="310" width="100" height="46" as="geometry" />
         </mxCell>
@@ -340,28 +310,6 @@
         <mxCell id="e4waLGMk03CbxaB5QYb_-115" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="e4waLGMk03CbxaB5QYb_-94" vertex="1" connectable="0">
           <mxGeometry x="0.708" y="3" relative="1" as="geometry">
             <mxPoint x="10" y="-8" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="e4waLGMk03CbxaB5QYb_-95" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;" parent="1" source="e4waLGMk03CbxaB5QYb_-1" target="e4waLGMk03CbxaB5QYb_-96" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="290" y="250" as="sourcePoint" />
-            <mxPoint x="410" y="250" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="320" y="135" />
-              <mxPoint x="320" y="250" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="e4waLGMk03CbxaB5QYb_-96" value="&lt;span lang=&quot;it&quot; class=&quot;BxUVEf ILfuVd&quot;&gt;&lt;span class=&quot;hgKElc&quot;&gt;Immette&lt;br&gt;&lt;/span&gt;&lt;/span&gt;" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="393" y="210" width="80" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="e4waLGMk03CbxaB5QYb_-97" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="e4waLGMk03CbxaB5QYb_-96" target="e4waLGMk03CbxaB5QYb_-80" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="440" y="420" as="sourcePoint" />
-            <mxPoint x="616" y="300" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="433" y="330" />
-            </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="e4waLGMk03CbxaB5QYb_-103" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="e4waLGMk03CbxaB5QYb_-18" target="e4waLGMk03CbxaB5QYb_-104" edge="1">
@@ -424,13 +372,10 @@
         <mxCell id="e4waLGMk03CbxaB5QYb_-118" value="N" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="645" y="148" width="30" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="e4waLGMk03CbxaB5QYb_-119" value="N" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-          <mxGeometry x="405" y="328" width="30" height="30" as="geometry" />
-        </mxCell>
         <mxCell id="e4waLGMk03CbxaB5QYb_-120" value="N" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="225" y="138" width="30" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="bLnEazIqRnS4ujHUDaee-2" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Schema Logico&lt;br&gt;&lt;/h1&gt;&lt;p&gt;Utente(ID_Utente(PK), Nome, Cognome, Email, Password, Data_Iscrizione, Data_Nascita)&lt;br&gt;Preferenza(ID_Preferenza(PK), ID_Utente(FK), ID_Contenuto(FK), Voto)&amp;nbsp; -- Relazione con Contenuto&lt;br&gt;Preferenza_Genere(ID_Preferenza_Genere(PK), Genere)&lt;br&gt;Immette(ID_Utente(FK), ID_Preferenza_Genere(FK))&lt;br&gt;Cronologia(ID_Cronologia(PK), ID_Utente(FK), ID_Contenuto(FK), Data_Inizio, Stato)&lt;br&gt;Contenuto(ID_Contenuto(PK), ID_Amministratore(FK), Nome, Tipo, Data_Rilascio, Genere, Locandina, Descrizione, Rating, N_Episodi, Durata, Paese_Origine)&lt;br&gt;Amministratore(ID_Amministratore(PK), Nome, Cognome, Email, Password)&lt;br&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
+        <mxCell id="bLnEazIqRnS4ujHUDaee-2" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Schema Logico&lt;br&gt;&lt;/h1&gt;&lt;p&gt;Utente(ID_Utente(PK), Nome, Cognome, Email, Password, Data_Iscrizione, Data_Nascita)&lt;br&gt;Preferenza(ID_Preferenza(PK), ID_Utente(FK), ID_Contenuto(FK))&lt;br&gt;Cronologia(ID_Cronologia(PK), ID_Utente(FK), ID_Contenuto(FK), Data_Inizio, Stato)&lt;br&gt;Contenuto(ID_Contenuto(PK), ID_Amministratore(FK), Nome, Tipo, Data_Rilascio, Genere, Locandina, Descrizione, Rating, N_Episodi, Durata, Paese_Origine)&lt;br&gt;Amministratore(ID_Amministratore(PK), Nome, Cognome, Email, Password)&lt;br&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="15" y="930" width="804" height="190" as="geometry" />
         </mxCell>
       </root>
