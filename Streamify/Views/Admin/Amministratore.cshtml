@@ -1,0 +1,159 @@
+﻿@{
+    ViewData["Title"] = "Gestione Query - Amministratore";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<link rel="stylesheet" href="~/css/query-admin.css" />
+
+
+<div class="query-dashboard">
+    <h1 class="query-title">Gestione Query 🧠</h1>
+
+    <div class="query-grid">
+        <!-- Query 1 -->
+        <div class="query-item">
+            <div class="query-header">
+                <h3>Query 1</h3>
+                <button class="query-button" onclick="toggleQueryContent('query1-content')">+</button>
+            </div>
+            <div id="query1-content" class="query-content">
+                <table class="query-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Cognome</th>
+                            <th>Email</th>
+                            <th>Data Iscrizione</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var utente in ViewBag.RisultatoPrimaQuery)
+                        {
+                            <tr>
+                                <td>@utente.Nome</td>
+                                <td>@utente.Cognome</td>
+                                <td>@utente.Email</td>
+                                <td>@utente.Data_Iscrizione.ToShortDateString()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Query 2 -->
+        <div class="query-item">
+            <div class="query-header">
+                <h3>Query 2</h3>
+                <button class="query-button" onclick="toggleQueryContent('query2-content')">+</button>
+            </div>
+            <div id="query2-content" class="query-content">
+                <table class="query-table">
+                    <thead>
+                        <tr>
+                            <th>Utente</th>
+                            <th>Visualizzazioni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in ViewBag.RisultatoSecondaQuery)
+                        {
+                            <tr>
+                                <td>@result.Utente</td>
+                                <td>@result.n_visualizzazioni</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Query 3 -->
+        <div class="query-item">
+            <div class="query-header">
+                <h3>Query 3</h3>
+                <button class="query-button" onclick="toggleQueryContent('query3-content')">+</button>
+            </div>
+            <div id="query3-content" class="query-content">
+                <table class="query-table">
+                    <thead>
+                        <tr>
+                            <th>Utente</th>
+                            <th>Contenuto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in ViewBag.RisultatoTerzaQuery)
+                        {
+                            <tr>
+                                <td>@result.Utente</td>
+                                <td>@result.Titolo</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Query 4 -->
+        <div class="query-item">
+            <div class="query-header">
+                <h3>Query 4</h3>
+                <button class="query-button" onclick="toggleQueryContent('query4-content')">+</button>
+            </div>
+            <div id="query4-content" class="query-content">
+                <table class="query-table">
+                    <thead>
+                        <tr>
+                            <th>Titolo</th>
+                            <th>Visualizzazioni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in ViewBag.RisultatoQuartaQuery)
+                        {
+                            <tr>
+                                <td>@result.Titolo</td>
+                                <td>@result.n_visualizzazioni</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="query-item query-5">
+            <div class="query-header">
+                <h3>Query 5</h3>
+                <button class="query-button" onclick="toggleQueryContent('query5-content')">+</button>
+            </div>
+            <div id="query5-content" class="query-content">
+                <table class="query-table">
+                    <thead>
+                        <tr>
+                            <th>Titolo</th>
+                            <th>Tipologia</th>
+                            <th>Data Aggiunta</th>
+                            <th>Utente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in ViewBag.RisultatoQuintaQuery)
+                        {
+                            <tr>
+                                <td>@result.Titolo</td>
+                                <td>@result.Tipologia</td>
+                                <td>@result.Data_aggiunta.ToShortDateString()</td>
+                                <td>@result.Utente</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="~/js/query-admin.js"></script>

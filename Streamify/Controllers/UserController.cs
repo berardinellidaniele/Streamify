@@ -61,5 +61,6 @@ namespace Streamify.Controllers
             var contenuti = _database.GetContenutiPerGenerePreferiti(genere, id_utente, offset, limit);
             return PartialView("_ContenutiPartial", contenuti);
         }
+
     }
 }

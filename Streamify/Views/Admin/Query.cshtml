@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Query";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";    
+}
+
+<link rel="stylesheet" href="~/css/admin.css" />
+
+<div class="query-dashboard">
+    <h1 class="query-welcome">Gestisci Query</h1>
+    <div class="query-options">
+        <div class="query-option" onclick="location.href='/Query/Utente'">
+            <i class="fa-solid fa-user query-icon"></i>
+            <p>Utente</p>
+        </div>
+        <div class="query-option" onclick="location.href='/Query/Amministratore'">
+            <i class="fa-solid fa-user-tie query-icon"></i>
+            <p>Amministratore</p>
+        </div>
+    </div>
+</div>
+

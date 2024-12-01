@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+<link rel="stylesheet" href="~/css/admin.css" />
+
+
+<div class="admin-dashboard">
+    <h1 class="admin-welcome">
+        Benvenuto 👋
+    </h1>
+    <div class="admin-options">
+        <div class="admin-option" onclick="location.href='/Admin/Utenti'">
+            <i class="fa-solid fa-users admin-icon"></i>
+            <p>Gestisci Utenti</p>
+        </div>
+        <div class="admin-option" onclick="location.href='/Admin/Query'">
+            <i class="fa-solid fa-database admin-icon"></i>
+            <p>Gestisci Query</p>
+        </div>
+    </div>
+</div>

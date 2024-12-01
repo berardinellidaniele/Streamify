@@ -1,0 +1,78 @@
+﻿@{
+    ViewData["Title"] = "Gestione Query - Utente";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/query-utente.css" />
+
+<div class="query-dashboard">
+    <h1 class="query-title">Gestione Query 🧠</h1>
+
+    <div class="query-grid">
+        <!-- Prima Query -->
+        <div class="query-item">
+            <div class="query-header">
+                <h3>Query 1</h3>
+                <button class="query-button" onclick="toggleQueryContent('query1-content')">+</button>
+            </div>
+            <div id="query1-content" class="query-content">
+                <table class="query-table">
+                    <thead>
+                        <tr>
+                            <th>Utente</th>
+                            <th>Contenuto</th>
+                            <th>Tipologia</th>
+                            <th>Data Visualizzazione</th>
+                            <th>Stato</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in ViewBag.RisultatoPrimaQuery)
+                        {
+                            <tr>
+                                <td>@result.Utente</td>
+                                <td>@result.Contenuto</td>
+                                <td>@result.Tipologia</td>
+                                <td>@result.Data_Visualizzazione.ToShortDateString()</td>
+                                <td>@result.Stato_visualizzazione</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Seconda Query -->
+        <div class="query-item">
+            <div class="query-header">
+                <h3>Query 2</h3>
+                <button class="query-button" onclick="toggleQueryContent('query2-content')">+</button>
+            </div>
+            <div id="query2-content" class="query-content">
+                <table class="query-table">
+                    <thead>
+                        <tr>
+                            <th>ID Cronologia</th>
+                            <th>Contenuto</th>
+                            <th>Data Inizio</th>
+                            <th>Stato</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in ViewBag.RisultatoSecondaQuery)
+                        {
+                            <tr>
+                                <td>@result.ID_Cronologia</td>
+                                <td>@result.Nome</td>
+                                <td>@result.Data_Inizio.ToShortDateString()</td>
+                                <td>@result.Stato</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/query-admin.js"></script>

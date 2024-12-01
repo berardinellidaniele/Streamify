@@ -10,12 +10,53 @@
 <link rel="stylesheet" href="~/css/dati.css" />
 
 <div class="dati-container">
-    <h2 class="dati-title">Informazioni Utente</h2>
+    <h1 class="dati-title">I TUOI DATI</h1>
     <div class="dati-content">
-        <p><strong>Nome:</strong> @nome</p>
-        <p><strong>Cognome:</strong> @cognome</p>
-        <p><strong>Email:</strong> @email</p>
-        <p><strong>Data di nascita:</strong> @data_nascita</p>
-        <p><strong>Data di iscrizione:</strong> @data_iscrizione</p>
+        <p>
+            <strong>Nome:</strong>
+            <span class="editable-field" data-field="Nome" data-original="@ViewBag.Nome">@ViewBag.Nome</span>
+            <i class="fa-solid fa-pen edit-icon"></i>
+        </p>
+        <p>
+            <strong>Cognome:</strong>
+            <span class="editable-field" data-field="Cognome" data-original="@ViewBag.Cognome">@ViewBag.Cognome</span>
+            <i class="fa-solid fa-pen edit-icon"></i>
+        </p>
+        <p>
+            <strong>Email:</strong>
+            <span class="editable-field" data-field="Email" data-original="@ViewBag.Email">@ViewBag.Email</span>
+            <i class="fa-solid fa-pen edit-icon"></i>
+        </p>
     </div>
+    <button id="save-button" class="btn btn-danger" style="display: none;">Salva</button>
 </div>
+
+<div class="password-change-container">
+    <h2 class="dati-title">
+        Cambia Password
+        <i class="fa-solid fa-key"></i>
+    </h2>
+</div>
+
+<div class="password-box">
+        <div class="form-group">
+            <label for="ve  cchiaPassword">Vecchia Password:</label>
+            <input type="password" id="vecchiaPassword" name="VecchiaPassword" class="form-control" required />
+            <i class="fa-solid fa-eye-slash toggle-password" data-target="vecchiaPassword"></i>
+        </div>
+        <div class="form-group">
+            <label for="nuovaPassword">Nuova Password:</label>
+            <input type="password" id="nuovaPassword" name="NuovaPassword" class="form-control" required minlength="8" />
+            <i class="fa-solid fa-eye-slash toggle-password" data-target="nuovaPassword"></i>
+        </div>
+        <div class="form-group">
+            <label for="confermaNuovaPassword">Ripeti Nuova Password:</label>
+            <input type="password" id="confermaNuovaPassword" name="ConfermaNuovaPassword" class="form-control" required />
+            <i class="fa-solid fa-eye-slash toggle-password" data-target="confermaNuovaPassword"></i>
+        </div>
+        <button type="button" class="btn" id="salva-password-btn">Salva</button>
+
+</div>
+
+<script src="/js/dati.js"></script>
+<script src="/js/password.js"></script>

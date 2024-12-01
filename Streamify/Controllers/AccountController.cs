@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Streamify.Models;
 using Streamify.ViewModels;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -25,9 +26,25 @@ namespace Streamify.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (modelloLogin.Email.ToLower() == "admin@admin.com")
+                {
+                    var admin = _database.AdminDaEmail(modelloLogin.Email);
+                    if (admin != null && admin.Password.Trim() == modelloLogin.Password.Trim()) 
+                    {
+                        HttpContext.Session.SetString("EmailUtente", admin.Email);
+                        HttpContext.Session.SetString("NomeUtente", admin.Nome);
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Credenziali admin non valide");
+                        return View(modelloLogin);
+                    }
+                }
+
                 var passwordHashata = HashPassword(modelloLogin.Password);
                 if (_database.ValidazioneUtente(modelloLogin.Email, passwordHashata))
-                {
+                {   
                     var utente = _database.OttieniUtenteDaEmail(modelloLogin.Email);
                     HttpContext.Session.SetString("EmailUtente", modelloLogin.Email);
                     HttpContext.Session.SetString("NomeUtente", utente.Nome);
@@ -41,6 +58,7 @@ namespace Streamify.Controllers
             }
             return View(modelloLogin);
         }
+
 
         public IActionResult Register()
         {
@@ -75,28 +93,68 @@ namespace Streamify.Controllers
             return View(modelloRegistrazione);
         }
 
-        public IActionResult ChangePassword(string email)
-        {
-            return View(new CambiaPasswordViewModel { Email = email });
-        }
 
         [HttpPost]
-        public IActionResult ChangePassword(CambiaPasswordViewModel modelloCambiaPassword)
+        public JsonResult CambiaPassword(CambiaPasswordViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var passwordHashata = HashPassword(modelloCambiaPassword.NuovaPassword);
-                if (_database.ModificaPassword(modelloCambiaPassword.Email, passwordHashata))
+                var errors = ModelState.Values
+                                       .SelectMany(v => v.Errors)
+                                       .Select(e => e.ErrorMessage)
+                                       .ToList();
+
+                return Json(new { success = false, message = "I dati inseriti non sono validi.", errors });
+            }
+
+            var emailUtente = HttpContext.Session.GetString("EmailUtente");
+            if (string.IsNullOrEmpty(emailUtente))
+            {
+                return Json(new { success = false, message = "Utente non autenticato." });
+            }
+
+            var utente = _database.OttieniUtenteDaEmail(emailUtente);
+            if (utente == null)
+            {
+                return Json(new { success = false, message = "Utente non trovato." });
+            }
+
+            var vecchiaPasswordHash = HashPassword(model.VecchiaPassword);
+            if (utente.Password != vecchiaPasswordHash)
+            {
+                return Json(new { success = false, message = "La vecchia password non è corretta." });
+            }
+
+            var nuovaPasswordHash = HashPassword(model.NuovaPassword);
+            if (utente.Password == nuovaPasswordHash)
+            {
+                return Json(new { success = false, message = "La nuova password non può essere uguale a quella attuale." });
+            }
+
+            if (model.NuovaPassword != model.ConfermaNuovaPassword)
+            {
+                return Json(new { success = false, message = "Le nuove password non corrispondono." });
+            }
+
+            try
+            {
+                var successo = _database.ModificaPassword(emailUtente, nuovaPasswordHash);
+
+                if (successo)
                 {
-                    return RedirectToAction("Login", "Account");
+                    return Json(new { success = true });
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Errore durante l'aggiornamento della password");
+                    return Json(new { success = false, message = "Errore nel salvataggio della nuova password nel database." });
                 }
             }
-            return View(modelloCambiaPassword);
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Errore: {ex.Message}" });
+            }
         }
+
 
         public IActionResult Logout()
         {
@@ -111,5 +169,12 @@ namespace Streamify.Controllers
             var hash = sha256.ComputeHash(bytes);
             return Convert.ToBase64String(hash);
         }
+
+
+    
+
+
+
+
     }
 }

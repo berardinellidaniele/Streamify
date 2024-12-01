@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Streamify.Models;
 using Dapper;
+using BCrypt.Net;
 
 public class Database
 {
@@ -264,6 +265,133 @@ public class Database
         return result;
     }
 
+    public bool CambiaPassword(string email, string nuovaPasswordHash)
+    {
+        const string query = "UPDATE Utente SET Password = @NuovaPassword WHERE Email = @Email";
+
+        using var db = CreateConnection();
+        var result = db.Execute(query, new { NuovaPassword = nuovaPasswordHash, Email = email });
+        return result > 0;
+    }
+
+
+    public List<dynamic> OttieniCronologiaPerUtente(int id_utente)
+    {
+        const string query = @"
+        SELECT c.ID_Cronologia, con.Nome, c.Data_Inizio, c.Stato
+        FROM Cronologia c
+        JOIN Contenuto con ON c.ID_Contenuto = con.ID_Contenuto
+        WHERE c.ID_Utente = @ID_Utente
+        ORDER BY c.Data_Inizio DESC";
+
+        using var db = CreateConnection();
+        return db.Query(query, new { ID_Utente = id_utente }).ToList();
+    }
+
+    public bool Cambiastatovisione(int id_cronologia)
+    {
+        const string query = "UPDATE Cronologia SET Stato = 'Finito' WHERE ID_Cronologia = @ID_Cronologia";
+        using var db = CreateConnection();
+        var result = db.Execute(query, new { ID_Cronologia = id_cronologia });
+        return result > 0;
+    }
+
+    public Amministratore AdminDaEmail(string email)
+    {
+        const string query = "SELECT * FROM Amministratore WHERE Email = @Email";
+        using var db = CreateConnection();
+        return db.QuerySingleOrDefault<Amministratore>(query, new { Email = email });
+    }
+
+
+    public bool IsAdmin(string email)
+    {
+        const string query = "SELECT COUNT(1) FROM Amministratore WHERE Email = @Email";
+        using var db = CreateConnection();
+        return db.ExecuteScalar<int>(query, new { Email = email }) > 0;
+    }
+
+    public List<dynamic> PrimaQuery()
+    {
+        const string query = "SELECT * FROM Utente";
+        using var db = CreateConnection();
+        return db.Query<dynamic>(query).ToList();
+    }
+
+    public List<dynamic> SecondaQuery()
+    {
+        const string query = @"
+        SELECT TOP 3 
+            Utente.Nome + ' ' + Utente.Cognome AS Utente, 
+            COUNT(Cronologia.ID_Contenuto) AS n_visualizzazioni
+        FROM Cronologia
+        INNER JOIN Utente ON Cronologia.ID_Utente = Utente.ID_Utente
+        GROUP BY Utente.Nome, Utente.Cognome
+        ORDER BY n_visualizzazioni DESC;";
+        using var db = CreateConnection();
+        return db.Query<dynamic>(query).ToList();
+    }
+
+    public List<dynamic> TerzaQuery()
+    {
+        const string query = @"
+        SELECT 
+            Utente.Nome + ' ' + Utente.Cognome AS Utente, 
+            Contenuto.Nome AS Titolo
+        FROM Cronologia
+        INNER JOIN Utente ON Cronologia.ID_Utente = Utente.ID_Utente
+        INNER JOIN Contenuto ON Cronologia.ID_Contenuto = Contenuto.ID_Contenuto
+        WHERE Cronologia.Stato = 'In Corso'
+        ORDER BY Utente.Nome, Utente.Cognome, Contenuto.Nome;";
+        using var db = CreateConnection();
+        return db.Query<dynamic>(query).ToList();
+    }
+
+    public List<dynamic> QuartaQuery()
+    {
+        const string query = @"
+        SELECT 
+            Contenuto.Nome AS Titolo, 
+            COUNT(Cronologia.ID_Contenuto) AS n_visualizzazioni
+        FROM Cronologia
+        INNER JOIN Contenuto ON Cronologia.ID_Contenuto = Contenuto.ID_Contenuto
+        GROUP BY Contenuto.Nome
+        ORDER BY n_visualizzazioni DESC;";
+        using var db = CreateConnection();
+        return db.Query<dynamic>(query).ToList();
+    }
+
+    public List<dynamic> QuintaQuery(int userId)
+    {
+        const string query = @"
+        SELECT 
+            Contenuto.Nome AS Titolo, 
+            Contenuto.Tipo AS Tipologia, 
+            Cronologia.Data_Inizio AS Data_aggiunta, 
+            Utente.Nome + ' ' + Utente.Cognome AS Utente
+        FROM Cronologia
+        INNER JOIN Utente ON Cronologia.ID_Utente = Utente.ID_Utente
+        INNER JOIN Contenuto ON Cronologia.ID_Contenuto = Contenuto.ID_Contenuto
+        WHERE Cronologia.ID_Utente = @UserId 
+            AND Cronologia.Data_Inizio >= DATEADD(DAY, -15, GETDATE())
+        ORDER BY Cronologia.Data_Inizio DESC;";
+        using var db = CreateConnection();
+        return db.Query<dynamic>(query, new { UserId = userId }).ToList();
+    }
+
+    public List<dynamic> PrimaQueryUtente(int userId)
+    {
+        const string query = @"
+         SELECT Utente.Nome + ' ' + Utente.Cognome AS Utente, Contenuto.Nome AS Contenuto, Contenuto.Tipo AS Tipologia, Cronologia.Data_Inizio AS Data_Visualizzazione, Cronologia.Stato AS Stato_visualizzazione
+         FROM Cronologia 
+         INNER JOIN Utente ON (Cronologia.ID_Utente = Utente.ID_Utente)
+         INNER JOIN Contenuto ON (Cronologia.ID_Contenuto = Contenuto.ID_Contenuto)
+         WHERE Utente.ID_Utente = @UserId
+         ORDER BY Cronologia.Data_Inizio ASC;
+        ";
+        using var db = CreateConnection();
+        return db.Query<dynamic>(query, new { UserId = userId }).ToList();
+    }
 
 
     public (string Nome, string Cognome) NomeCognome(string email)
