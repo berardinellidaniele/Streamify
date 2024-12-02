@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
-
-public class amministratore
+﻿public class amministratore
 {
     private readonly RequestDelegate _next;
 
@@ -17,24 +14,33 @@ public class amministratore
 
         if (!string.IsNullOrEmpty(emailUtente) && emailUtente == "admin@admin.com")
         {
+            if (path.StartsWith("/home"))
+            {
+                context.Response.Redirect("/Admin");
+                return;
+            }
+
             if (path.StartsWith("/settings") && !path.Equals("/settings/cronologia"))
             {
                 context.Response.Redirect("/Admin");
                 return;
             }
         }
-        else
+        else if (!string.IsNullOrEmpty(emailUtente))
         {
-            if (path.StartsWith("/admin") || path.StartsWith("/user"))
+            if (path.StartsWith("/admin"))
             {
                 context.Response.Redirect("/Account/Login");
                 return;
             }
         }
-
-        if(path.StartsWith("/user"))
+        else
         {
-            context.Response.Redirect("/Admin");
+            if (path.StartsWith("/admin") || path.StartsWith("/user") || path.StartsWith("/settings"))
+            {
+                context.Response.Redirect("/Account/Login");
+                return;
+            }
         }
 
         await _next(context);

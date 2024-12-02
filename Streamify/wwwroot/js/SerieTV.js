@@ -48,7 +48,6 @@ $(document).ready(function () {
     });
 
     // Gestione apertura popup con dettagli
-    // Gestione apertura popup con dettagli
     $(document).on('click', '.locandina', function () {
         const contentId = $(this).data('id');
         id_contenuto = contentId;
@@ -62,10 +61,13 @@ $(document).ready(function () {
                 if (data.success) {
                     $('#dettagli-titolo').text(data.nome);
                     $('#dettagli-descrizione').text(data.descrizione);
-                    $('#dettagli-genere').text(data.genere);
-                    $('#dettagli-rating').text(data.rating);
-                    $('#dettagli-durata').text(data.durata);
-                    $('#dettagli-episodi').text(data.episodi);
+                    $('#dettagli-rating').text(` ${data.valutazione} IMDb`);
+                    if (data.tipo !== "tvSeries") {
+                        $('#dettagli-durata').text(` ${data.durata} m`);
+                    }
+                    else {
+                        $('#dettagli-durata').text(` ${data.n_episodi} ep`);
+                    }
                     $('#dettagli-locandina').attr('src', data.locandina).show();
 
                     if (data.like) {

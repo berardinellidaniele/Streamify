@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -39,5 +39,9 @@
     <None Include="wwwroot\js\Film.js" />
     <None Include="wwwroot\js\dashboard.js" />
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="if exist &quot;$(TargetPath).locked&quot; del &quot;$(TargetPath).locked&quot;&#xA;if exist &quot;$(TargetPath)&quot; if not exist &quot;$(TargetPath).locked&quot; move &quot;$(TargetPath)&quot; &quot;$(TargetPath).locked&quot;" />
+  </Target>
 
 </Project>

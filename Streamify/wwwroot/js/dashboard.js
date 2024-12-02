@@ -93,10 +93,13 @@ $(document).ready(function () {
                 if (data.success) {
                     $('#dettagli-titolo').text(data.nome);
                     $('#dettagli-descrizione').text(data.descrizione);
-                    $('#dettagli-genere').text(data.genere);
-                    $('#dettagli-rating').text(data.rating);
-                    $('#dettagli-durata').text(data.durata);
-                    $('#dettagli-episodi').text(data.episodi);
+                    $('#dettagli-rating').text(` ${data.valutazione} IMDb`);
+                    if (data.tipo !== "tvSeries") {
+                        $('#dettagli-durata').text(` ${data.durata} m`);
+                    }
+                    else {
+                        $('#dettagli-durata').text(` ${data.n_episodi} ep`);
+                    }
                     $('#dettagli-locandina').attr('src', data.locandina).show();
 
                     if (data.like) {
@@ -145,9 +148,8 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.success) {
                         icon.removeClass('far').addClass('fas');
-                        alert('Contenuto aggiunto ai preferiti!');
                     } else {
-                        alert('Effettua il login per poter salvare i contenuti nei preferiti.');
+                        alert('effettua il login per poter salvare i contenuti nei preferiti.');
                     }
                 },
                 error: function () {

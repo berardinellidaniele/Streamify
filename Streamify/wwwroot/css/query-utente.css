@@ -1,26 +1,4 @@
-﻿.query-dashboard {
-    text-align: center;
-    margin-top: 50px;
-}
-
-.query-title {
-    font-size: 3.5rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: white;
-    letter-spacing: 2px;
-    margin-bottom: 30px;
-    animation: fadeIn 1s ease-in-out;
-}
-
-.query-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    justify-items: center;
-}
-
-.query-item {
+﻿.query-item {
     width: 90%;
     margin: 20px auto;
     background-color: #141414;
@@ -29,32 +7,61 @@
     box-shadow: 0 0 10px rgba(229, 9, 20, 0.6);
     overflow: hidden;
     transition: all 0.3s ease-in-out;
+    position: relative; 
+    z-index: auto; 
 }
+
+    .query-item.expanded {
+        width: 100%;
+        margin-bottom: 20px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .query-item.query-1-utente,
+    .query-item.query-2-utente {
+        transition: all 0.3s ease-in-out;
+    }
+
+    .query-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 25px rgba(229, 9, 20, 0.8);
+    }
+
+.query-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .query-header h3 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+        margin: 0;
+    }
+
+.query-button {
+    background-color: #e50914;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+    .query-button:hover {
+        background-color: #f6121d;
+        transform: scale(1.2);
+    }
 
 .query-content {
     display: none;
     margin-top: 10px;
     overflow: auto;
 }
-
-.query-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-    .query-table th,
-    .query-table td {
-        padding: 10px;
-        border: 1px solid #333;
-        color: white;
-        text-align: left;
-    }
-
-    .query-table th {
-        background-color: #e50914;
-    }
-
-    .query-table tr:nth-child(even) {
-        background-color: #1f1f1f;
-    }

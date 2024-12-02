@@ -1,7 +1,6 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Dapper;
+using Microsoft.Data.SqlClient;
 using Streamify.Models;
-using Dapper;
-using BCrypt.Net;
 
 public class Database
 {
@@ -30,7 +29,7 @@ public class Database
             user.Email,
             Password = hashedPassword,
             user.Data_Iscrizione,
-            user.Data_Nascita
+            Data_Nascita = user.Data_Nascita
         });
         return result > 0;
     }
@@ -175,13 +174,6 @@ public class Database
         return result > 0;
     }
 
-    public List<Utente> GetAllUsers()
-    {
-        const string query = "SELECT * FROM Utente";
-        using var db = CreateConnection();
-        return db.Query<Utente>(query).AsList();
-    }
-
     public bool EliminaUtente(int userId)
     {
         const string query = "DELETE FROM Utente WHERE ID_Utente = @ID_Utente";
@@ -193,12 +185,27 @@ public class Database
     public bool AggiornaUtente(Utente user)
     {
         const string query = @"
-            UPDATE Utente
-            SET Nome = @Nome, Cognome = @Cognome, Email = @Email, Data_Nascita = @Data_Nascita
-            WHERE ID_Utente = @ID_Utente";
+                            UPDATE Utente
+                            SET Nome = @Nome, Cognome = @Cognome, Email = @Email, Data_Nascita = @Data_Nascita
+                            WHERE ID_Utente = @ID_Utente";
+
         using var db = CreateConnection();
-        var result = db.Execute(query, user);
+        var result = db.Execute(query, new
+        {
+            user.Nome,
+            user.Cognome,
+            user.Email,
+            Data_Nascita = user.Data_Nascita, 
+            user.ID_Utente
+        });
         return result > 0;
+    }
+
+    public string OttieniTipoContenuto(int idContenuto)
+    {
+        const string query = "SELECT Tipo FROM Contenuto WHERE ID_Contenuto = @ID_Contenuto";
+        using var db = CreateConnection();
+        return db.QuerySingleOrDefault<string>(query, new { ID_Contenuto = idContenuto });
     }
 
     public List<string> GetGeneriUnici()
@@ -258,7 +265,7 @@ public class Database
 
             if (parole.Length > 73)
             {
-               result.Descrizione = string.Join(" ", parole.Take(73)) + "...";
+                result.Descrizione = string.Join(" ", parole.Take(73)) + "...";
             }
         }
 
@@ -391,6 +398,26 @@ public class Database
         ";
         using var db = CreateConnection();
         return db.Query<dynamic>(query, new { UserId = userId }).ToList();
+    }
+
+    public List<dynamic> OttieniCronologiaConRange(int userId, DateTime? startDate, DateTime? endDate)
+    {
+        const string query = @"
+        SELECT c.ID_Cronologia, con.Nome, c.Data_Inizio, c.Stato
+        FROM Cronologia c
+        JOIN Contenuto con ON c.ID_Contenuto = con.ID_Contenuto
+        WHERE c.ID_Utente = @UserId
+        AND (@StartDate IS NULL OR c.Data_Inizio >= @StartDate)
+        AND (@EndDate IS NULL OR c.Data_Inizio <= @EndDate)
+        ORDER BY c.Data_Inizio DESC";
+
+        using var db = CreateConnection();
+        return db.Query<dynamic>(query, new
+        {
+            UserId = userId,
+            StartDate = startDate,
+            EndDate = endDate
+        }).ToList();
     }
 
 

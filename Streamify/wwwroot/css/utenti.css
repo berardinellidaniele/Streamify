@@ -1,0 +1,67 @@
+﻿body {
+    background-color: #141414;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.utenti-dashboard {
+    text-align: center;
+    margin: 50px auto;
+    width: 90%;
+}
+
+.utenti-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.utenti-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #1f1f1f;
+}
+
+    .utenti-table th, .utenti-table td {
+        padding: 15px;
+        border: 1px solid #333;
+        text-align: center;
+        color: white;
+    }
+
+    .utenti-table th {
+        background-color: #e50914;
+        color: white;
+        text-transform: uppercase;
+    }
+
+    .utenti-table tr:nth-child(even) {
+        background-color: #282828;
+    }
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+    .action-btn:hover {
+        transform: scale(1.2);
+        color: #f6121d;
+    }
+
+.editable {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .editable:hover {
+        background-color: #e50914;
+        color: white;
+        padding: 2px 4px;
+        border-radius: 3px;
+    }

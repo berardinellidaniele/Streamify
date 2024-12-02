@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
+using Streamify.Models;
 
 namespace Streamify.Controllers
 {
@@ -36,15 +35,60 @@ namespace Streamify.Controllers
         }
 
         [HttpGet("/Query/Utente")]
-        public IActionResult Utente()
+        public IActionResult Utente(int? userId, DateTime? datainizio, DateTime? datafine)
         {
-            var risultatoPrimaQuery = _database.PrimaQueryUtente(5);
-            var risultatoSecondaQuery = _database.OttieniCronologiaPerUtente(5);
+            InizializzaViewBag();
 
-            ViewBag.RisultatoPrimaQuery = risultatoPrimaQuery ?? new List<dynamic>();
-            ViewBag.RisultatoSecondaQuery = risultatoSecondaQuery ?? new List<dynamic>();
+            if (!userId.HasValue)
+            {
+                ViewBag.Error = "È necessario specificare un ID utente.";
+                return View();
+            }
 
+            if (!datainizio.HasValue || !datafine.HasValue)
+            {
+                
+                datainizio ??= new DateTime(2000, 1, 1); 
+                datafine ??= DateTime.UtcNow;           
+            }
+
+            if (datainizio.Value < new DateTime(1753, 1, 1) || datafine.Value < new DateTime(1753, 1, 1))
+            {
+                ModelState.AddModelError("DateRange", "Le date devono essere uguali o successive al 01/01/1753.");
+                return View();
+            }
+
+            CaricaEntrambeLeQuery(userId.Value, datainizio.Value, datafine.Value);
             return View();
+        }
+
+        private void InizializzaViewBag()
+        {
+            ViewBag.RisultatoPrimaQuery = new List<dynamic>();
+            ViewBag.RisultatoSecondaQuery = new List<dynamic>();
+            ViewBag.Error = null;
+            ViewBag.UserId = null;
+            ViewBag.StartDate = null;
+            ViewBag.EndDate = null;
+        }
+
+
+        private void CaricaEntrambeLeQuery(int userId, DateTime datainizio, DateTime datafine)
+        {
+            ViewBag.RisultatoPrimaQuery = _database.PrimaQueryUtente(userId) ?? new List<dynamic>();
+
+            var secondaQueryRisultati = _database.OttieniCronologiaConRange(userId, datainizio, datafine);
+
+            Console.WriteLine($"Seconda Query Risultati (Data Inizio: {datainizio}, Data Fine: {datafine}):");
+            foreach (var result in secondaQueryRisultati ?? new List<dynamic>())
+            {
+                Console.WriteLine(result);
+            }
+
+            ViewBag.RisultatoSecondaQuery = secondaQueryRisultati ?? new List<dynamic>();
+            ViewBag.UserId = userId;
+            ViewBag.StartDate = datainizio;
+            ViewBag.EndDate = datafine;
         }
     }
 }

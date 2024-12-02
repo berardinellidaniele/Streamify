@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Streamify.Models;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Streamify.Models;
 
 namespace Streamify.Controllers
 {
@@ -159,13 +155,17 @@ namespace Streamify.Controllers
                 nome = contenuto.Nome,
                 descrizione = contenuto.Descrizione,
                 trailerKeyword = contenuto.Nome,
+                tipo = contenuto.Tipo,
+                valutazione = contenuto.Rating,
+                n_episodi = contenuto.N_Episodi,
+                durata = contenuto.Durata,
                 like = isLoggedin ? _database.ControllaPreferenza(idUtente, id) : false
             });
         }
 
         [HttpGet]
         public async Task<JsonResult> GetTrailerUrl(string trailerKeyword)
-        {   
+        {
             var query = trailerKeyword + "officialtrailer";
 
             var url = $"https://www.googleapis.com/youtube/v3/search?part=snippet&q={query}&type=video&autoplay=1&vq=hd1080&key={_youtubeApiKey}";

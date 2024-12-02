@@ -33,7 +33,9 @@ namespace Streamify.Controllers
             ViewBag.Nome = utente?.Nome;
             ViewBag.Cognome = utente?.Cognome;
             ViewBag.Email = utente?.Email;
-            ViewBag.DataNascita = utente?.Data_Nascita.ToString("dd/MM/yyyy");
+            ViewBag.DataNascita = utente?.Data_Nascita != null
+                                      ? ((DateTime)utente.Data_Nascita).ToString("dd/MM/yyyy")
+                                      : "Non disponibile"; 
             ViewBag.DataIscrizione = utente?.Data_Iscrizione.ToString("dd/MM/yyyy");
 
             return View();
@@ -136,6 +138,7 @@ namespace Streamify.Controllers
             var aggiornato = _database.AggiornaUtente(utente);
             return Json(new { success = aggiornato });
         }
+
 
         [HttpGet]
         public JsonResult Cambiastatovisione(int id_cronologia)

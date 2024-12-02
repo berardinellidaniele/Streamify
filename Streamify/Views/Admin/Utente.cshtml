@@ -8,71 +8,101 @@
 <div class="query-dashboard">
     <h1 class="query-title">Gestione Query 🧠</h1>
 
-    <div class="query-grid">
-        <!-- Prima Query -->
-        <div class="query-item">
-            <div class="query-header">
-                <h3>Query 1</h3>
-                <button class="query-button" onclick="toggleQueryContent('query1-content')">+</button>
-            </div>
-            <div id="query1-content" class="query-content">
-                <table class="query-table">
-                    <thead>
-                        <tr>
-                            <th>Utente</th>
-                            <th>Contenuto</th>
-                            <th>Tipologia</th>
-                            <th>Data Visualizzazione</th>
-                            <th>Stato</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var result in ViewBag.RisultatoPrimaQuery)
-                        {
-                            <tr>
-                                <td>@result.Utente</td>
-                                <td>@result.Contenuto</td>
-                                <td>@result.Tipologia</td>
-                                <td>@result.Data_Visualizzazione.ToShortDateString()</td>
-                                <td>@result.Stato_visualizzazione</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <form method="get" action="/Query/Utente" class="query-form">
+        <label for="userId">ID Utente:</label>
+        <input type="number" id="userId" name="userId" value="@ViewBag.UserId" required />
 
-        <!-- Seconda Query -->
-        <div class="query-item">
-            <div class="query-header">
-                <h3>Query 2</h3>
-                <button class="query-button" onclick="toggleQueryContent('query2-content')">+</button>
-            </div>
-            <div id="query2-content" class="query-content">
-                <table class="query-table">
-                    <thead>
-                        <tr>
-                            <th>ID Cronologia</th>
-                            <th>Contenuto</th>
-                            <th>Data Inizio</th>
-                            <th>Stato</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var result in ViewBag.RisultatoSecondaQuery)
-                        {
-                            <tr>
-                                <td>@result.ID_Cronologia</td>
-                                <td>@result.Nome</td>
-                                <td>@result.Data_Inizio.ToShortDateString()</td>
-                                <td>@result.Stato</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+        <label for="startDate">Data Inizio:</label>
+        <input type="date" id="startDate" name="startDate" value="@ViewBag.StartDate?.ToString("dd-MM-yyyy")" />
+
+        <label for="endDate">Data Fine:</label>
+        <input type="date" id="endDate" name="endDate" value="@ViewBag.EndDate?.ToString("dd-MM-yyyy")" />
+
+        <button type="submit" class="query-submit">Filtra</button>
+    </form>
+
+    @if (!string.IsNullOrEmpty(ViewBag.Error))
+    {
+        <div class="error-message">@ViewBag.Error</div>
+    }
+    else
+    {
+        <div class="query-grid">
+            @if (ViewBag.RisultatoPrimaQuery != null && ViewBag.RisultatoPrimaQuery.Count > 0)
+            {
+                <!-- Prima Query -->
+                <div class="query-item query1-utente">
+                    <div class="query-header">
+                        <h3>Query 1</h3>
+                        <button class="query-button" onclick="toggleQueryContent('query1-content')">+</button>
+                    </div>
+                    <div id="query1-content" class="query-content">
+                        <table class="query-table">
+                            <thead>
+                                <tr>
+                                    <th>Utente</th>
+                                    <th>Contenuto</th>
+                                    <th>Tipologia</th>
+                                    <th>Data Visualizzazione</th>
+                                    <th>Stato</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var result in ViewBag.RisultatoPrimaQuery)
+                                {
+                                    <tr>
+                                        <td>@result.Utente</td>
+                                        <td>@result.Contenuto</td>
+                                        <td>@result.Tipologia</td>
+                                        <td>@result.Data_Visualizzazione.ToShortDateString()</td>
+                                        <td>@result.Stato_visualizzazione</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+
+            @if (ViewBag.RisultatoSecondaQuery != null && ViewBag.RisultatoSecondaQuery.Count > 0)
+            {
+                <!-- Seconda Query -->
+                <div class="query-item query2-utente">
+                    <div class="query-header">
+                        <h3>Query 2</h3>
+                        <button class="query-button" onclick="toggleQueryContent('query2-content')">+</button>
+                    </div>
+                    <div id="query2-content" class="query-content">
+                        <table class="query-table">
+                            <thead>
+                                <tr>
+                                    <th>ID Cronologia</th>
+                                    <th>Contenuto</th>
+                                    <th>Data Inizio</th>
+                                    <th>Stato</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var result in ViewBag.RisultatoSecondaQuery)
+                                {
+                                    <tr>
+                                        <td>@result.ID_Cronologia</td>
+                                        <td>@result.Nome</td>
+                                        <td>@result.Data_Inizio.ToShortDateString()</td>
+                                        <td>@result.Stato</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+            else
+            {
+                //
+            }
         </div>
-    </div>
+    }
 </div>
 
-<script src="~/js/query-admin.js"></script>
+<script src="~/js/query-utente.js"></script>
