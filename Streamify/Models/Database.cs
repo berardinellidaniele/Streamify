@@ -163,25 +163,7 @@ public class Database
 
         return result;
     }
-
-    public bool AggiungiContenuto(Contenuto contenuto)
-    {
-        const string query = @"
-            INSERT INTO Contenuto (ID_Amministratore, Nome, Tipo, Data_Rilascio, Genere, Locandina, Descrizione, Rating, N_Episodi, Durata)
-            VALUES (@ID_Amministratore, @Nome, @Tipo, @Data_Rilascio, @Genere, @Locandina, @Descrizione, @Rating, @N_Episodi, @Durata)";
-        using var db = CreateConnection();
-        var result = db.Execute(query, contenuto);
-        return result > 0;
-    }
-
-    public bool EliminaUtente(int userId)
-    {
-        const string query = "DELETE FROM Utente WHERE ID_Utente = @ID_Utente";
-        using var db = CreateConnection();
-        var result = db.Execute(query, new { ID_Utente = userId });
-        return result > 0;
-    }
-
+  
     public bool AggiornaUtente(Utente user)
     {
         const string query = @"
@@ -201,12 +183,6 @@ public class Database
         return result > 0;
     }
 
-    public string OttieniTipoContenuto(int idContenuto)
-    {
-        const string query = "SELECT Tipo FROM Contenuto WHERE ID_Contenuto = @ID_Contenuto";
-        using var db = CreateConnection();
-        return db.QuerySingleOrDefault<string>(query, new { ID_Contenuto = idContenuto });
-    }
 
     public List<string> GetGeneriUnici()
     {
@@ -272,15 +248,6 @@ public class Database
         return result;
     }
 
-    public bool CambiaPassword(string email, string nuovaPasswordHash)
-    {
-        const string query = "UPDATE Utente SET Password = @NuovaPassword WHERE Email = @Email";
-
-        using var db = CreateConnection();
-        var result = db.Execute(query, new { NuovaPassword = nuovaPasswordHash, Email = email });
-        return result > 0;
-    }
-
 
     public List<dynamic> OttieniCronologiaPerUtente(int id_utente)
     {
@@ -310,13 +277,6 @@ public class Database
         return db.QuerySingleOrDefault<Amministratore>(query, new { Email = email });
     }
 
-
-    public bool IsAdmin(string email)
-    {
-        const string query = "SELECT COUNT(1) FROM Amministratore WHERE Email = @Email";
-        using var db = CreateConnection();
-        return db.ExecuteScalar<int>(query, new { Email = email }) > 0;
-    }
 
     public List<dynamic> PrimaQuery()
     {

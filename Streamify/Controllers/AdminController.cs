@@ -41,7 +41,7 @@ namespace Streamify.Controllers
 
             if (!userId.HasValue)
             {
-                ViewBag.Error = "È necessario specificare un ID utente.";
+                ViewBag.Error = "Specifica un ID utente";
                 return View();
             }
 
@@ -78,12 +78,6 @@ namespace Streamify.Controllers
             ViewBag.RisultatoPrimaQuery = _database.PrimaQueryUtente(userId) ?? new List<dynamic>();
 
             var secondaQueryRisultati = _database.OttieniCronologiaConRange(userId, datainizio, datafine);
-
-            Console.WriteLine($"Seconda Query Risultati (Data Inizio: {datainizio}, Data Fine: {datafine}):");
-            foreach (var result in secondaQueryRisultati ?? new List<dynamic>())
-            {
-                Console.WriteLine(result);
-            }
 
             ViewBag.RisultatoSecondaQuery = secondaQueryRisultati ?? new List<dynamic>();
             ViewBag.UserId = userId;

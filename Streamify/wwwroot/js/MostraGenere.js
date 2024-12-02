@@ -16,7 +16,6 @@
         if (documentHeight - scrollPosition <= windowHeight + 100) {
             const limit = 10;
             isLoading = true;
-            console.log(`Caricamento di ${limit} contenuti per il genere ${genere}...`); //debug
 
             caricaContenutiDallaCache(genere, offsets[genere] || 0, limit).then(function (contenutiHtml) {
                 if (contenutiHtml) {
@@ -26,7 +25,6 @@
 
                 isLoading = false;
             }).catch(function (error) {
-                console.error("Errore nel caricamento dei contenuti:", error); //debug
                 isLoading = false;
             });
         }
@@ -46,7 +44,6 @@
             const { data, timestamp } = JSON.parse(cachedData);
             const cacheDuration = 3600000;
             if (Date.now() - timestamp < cacheDuration) {
-                console.log("Caricamento dati dalla cache."); //debug
                 return Promise.resolve(data);
             } else {
                 localStorage.removeItem(cacheKey);
@@ -59,12 +56,10 @@
                 method: 'GET',
                 data: { genere: genere, offset: offset, limit: limit },
                 success: function (data) {
-                    console.log("Risposta AJAX ricevuta:", data); //debug
                     localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: Date.now() }));
                     resolve(data);
                 },
                 error: function (error) {
-                    console.error("Errore nella richiesta AJAX:", error) //debug
                     reject([])
                 }
             });

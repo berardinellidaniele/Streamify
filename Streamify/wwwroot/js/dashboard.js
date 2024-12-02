@@ -1,6 +1,3 @@
-// Desc: Script per la dashboard dell'utente
-
-// Funzione per la gestione dello scroll orizzontale delle righe di contenuti
 $(document).ready(function () {
 
     $('.scroller-left, .scroller-right').click(function () {
@@ -19,7 +16,6 @@ $(document).ready(function () {
     let isLoading = false;
     let offsets = {};
 
-    // Gestione caricamento dinamico dei contenuti
     $('.row-wrapper').on('scroll', function () {
         if (isLoading) return;
 
@@ -34,7 +30,6 @@ $(document).ready(function () {
             const limit = 10;
             isLoading = true;
 
-            console.log(`Caricamento di ${limit} contenuti per il genere ${genere}...`);
             caricaContenutiDallaCache(genere, offsets[genere], limit).then(function (contenuti) {
                 $this.append(contenuti);
                 offsets[genere] += limit;
@@ -45,7 +40,6 @@ $(document).ready(function () {
         }
     });
 
-    // Funzione per caricare i contenuti nella cache o dalla cache
     function caricaContenutiDallaCache(genere, offset, limit) {
         const cacheKey = `contenuti_${genere}_${offset}_${limit}`;
         const cachedData = localStorage.getItem(cacheKey);
@@ -79,7 +73,6 @@ $(document).ready(function () {
 
     var id_contenuto = 0;
 
-    // Gestione apertura popup con dettagli
     $(document).on('click', '.locandina', function () {
         const contentId = $(this).data('id');
         id_contenuto = contentId;
@@ -195,7 +188,6 @@ $(document).ready(function () {
     });
 
 
-    // Funzione per recuperare l'URL del trailer di un contenuto
     function fetchTrailerUrl(query, callback) {
         $.ajax({
             url: '/Home/GetTrailerUrl',
@@ -213,4 +205,5 @@ $(document).ready(function () {
             }
         });
     }
+
 });

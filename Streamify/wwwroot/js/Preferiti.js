@@ -34,7 +34,6 @@ $(document).ready(function () {
             const limit = 10;
             isLoading = true;
 
-            console.log(`Caricamento di ${limit} contenuti per il genere ${genere}...`);
             caricaContenutiDallaCache(genere, offsets[genere], limit).then(function (contenuti) {
                 $this.append(contenuti);
                 offsets[genere] += limit;

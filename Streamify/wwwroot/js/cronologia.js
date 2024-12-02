@@ -28,8 +28,6 @@
         var dataInizio = $('#dataInizio').val();
         var dataFine = $('#dataFine').val();
 
-        console.log(dataInizio);
-
         if (dataInizio && dataFine) {
             table.rows().every(function () {
                 var data = this.data();
