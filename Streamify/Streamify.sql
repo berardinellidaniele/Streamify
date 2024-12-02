@@ -4,8 +4,8 @@
     Cognome NVARCHAR(50) NOT NULL,
     Email NVARCHAR(100) NOT NULL UNIQUE,
     Password NVARCHAR(100) NOT NULL,
-    Data_Iscrizione DATE NOT NULL,
-    Data_Nascita DATE NOT NULL
+    Data_Iscrizione DATETIME2 NOT NULL,
+    Data_Nascita DATETIME NOT NULL
 );
 
 CREATE TABLE Amministratore (
