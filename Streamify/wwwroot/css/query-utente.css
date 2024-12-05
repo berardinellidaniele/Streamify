@@ -1,4 +1,23 @@
-﻿.query-item {
+﻿body {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.query-item {
     width: 90%;
     margin: 20px auto;
     background-color: #141414;

@@ -1,4 +1,23 @@
-﻿.account-container {
+﻿body {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.account-container {
     background-image: url('../images/account-bg.jpg');
     background-size: cover;
     background-position: center;

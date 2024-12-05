@@ -1,4 +1,23 @@
-﻿.generi-page {
+﻿body {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.generi-page {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
