@@ -1,3 +1,37 @@
-# Streamify
-A Netflix emulator made with .NET Core MVC (Model, View, Controller)
+<p align="center">
+  <img src="./assets/index.png" alt="Streamify Dashboard" width="80%"/>
+</p>
 
+<h1 align="center">🎬 Streamify</h1>
+<p align="center">A streaming platform similar to Netflix built by using ASP.NET Core MVC</p>
+
+---
+
+## 🚀 Main features
+- 🔍 Search for a content by writing the title
+- 🎥 Trailers using the YouTube API
+- 🧠 Login, Register
+- ❤️ Create a list of favourite contents
+- 🕒 Smart history
+
+---
+
+## 📸 Screenshots
+
+### 🏠 Homepage
+![Home](./assets/index.png)
+
+### 📺 A content
+![Contenuto](./assets/contenuto.png)
+
+### 🔐 User Login
+![Login](./assets/login_page_streamify.png)
+
+---
+
+## 🧰 Tech Stack 
+- **Backend**: C# + ASP.NET Core MVC
+- **Database**: SQL Server con Dapper
+- **Frontend**: Razor Pages, HTML/CSS, JavaScript
+
+---
