@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/index.png" alt="Streamify Dashboard" width="80%"/>
+  <img src="./assets/logostreamify.png" alt="Streamify Logo" width="70%"/>
 </p>
 
 <h1 align="center">🎬 Streamify</h1>
